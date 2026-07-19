@@ -6,6 +6,14 @@ namespace HelloWorld
     {
         static void Main(string[] args)
         {
+
+            // task 1 : in the form 
+            Console.WriteLine("Name: Leen Zreaq");
+            Console.WriteLine($"Today's Date: {DateTime.Now:2026-07-19S}");
+
+
+
+
             // a simple basic for the data type of variable is : char , double , float , int , long , short , string , bool
             char ch = 'A';
             double d = 3.14;
