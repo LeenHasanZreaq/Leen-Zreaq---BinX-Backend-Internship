@@ -2,7 +2,7 @@
 
 using System;
 
-//  calculater , X&O Game .
+//  calculater 
 
 // first i will make a calculater for the basic operations like : + , - , * , / , % .
 
