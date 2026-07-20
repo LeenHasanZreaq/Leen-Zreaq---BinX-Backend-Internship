@@ -9,7 +9,7 @@ namespace HelloWorld
 
             // task 1 : in the form 
             Console.WriteLine("Name: Leen Zreaq");
-            Console.WriteLine($"Today's Date: {DateTime.Now:2026-07-19S}");
+            Console.WriteLine($"Today's Date: {DateTime.Now:yyyy-MM-dd}");
 
 
 
@@ -117,7 +117,7 @@ namespace HelloWorld
 
             string name1 = "leen";
             int age1 = 20;
-            Console.WriteLine("My name is {0} and I am {1:0.00} years old.", name1, age1);
+            Console.WriteLine("My name is {0} and I am {1} years old.", name1, age1);
 
 
 
@@ -127,6 +127,54 @@ namespace HelloWorld
             int.TryParse(input1, out num23);
             Console.WriteLine("TryParse result: " + num23);
 
+
+            // the thing i well learn in this day :
+            // break , continue , return
+            Mon.br();
+            Mon.con();
+            int retResult = Mon.ret();
+            Console.WriteLine("Return statement result: " + retResult);
+
+        }
+    }
+
+    class Mon
+    {
+
+        public static void br()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (i == 3)
+                {
+                    break;
+                }
+                Console.WriteLine("Break statement : " + i);
+            }
+
+        }
+
+        public static void con()
+        {
+            for (int i = 0; i <= 5; i++)
+            {
+                if (i == 3)
+                {
+                    continue;
+                }
+                Console.WriteLine("Continue statement : " + i);
+            }
+
+        }
+
+        public static int ret()
+        {
+            int sum = 0;
+            for (int i = 0; i <= 5; i++)
+            {
+                sum += i;
+            }
+            return sum;
 
         }
     }
