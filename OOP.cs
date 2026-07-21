@@ -9,6 +9,11 @@ namespace oop
         {
             Position player = new Position(10, 20);
             Console.WriteLine("X : " + player.x + " Y : " + player.y);
+
+
+            Trial test = new Trial("ahmed", "1234");
+            Console.WriteLine("Name : " + test.getName() + " , Pass : " + test.getPass());
+
         }
 
 
@@ -25,6 +30,43 @@ namespace oop
                 this.x = x;
                 this.y = y;
             }
+        }
+    }
+
+
+    // make this class to test the oop class , and make constructor => defult constructor and full constructor
+    // object , getter and setter for the class
+    class Trial
+    {
+        private string name;
+        private string pass;
+
+
+        public Trial(string name, string pass)
+        {
+            this.name = name;
+            this.pass = pass;
+        }
+
+        public string getName()
+        {
+            return name;
+        }
+
+        public void setName(string name)
+        {
+            this.name = name;
+        }
+
+
+        public string getPass()
+        {
+            return pass;
+        }
+
+        public void setPass(string pass)
+        {
+            this.pass = pass;
         }
     }
 }
