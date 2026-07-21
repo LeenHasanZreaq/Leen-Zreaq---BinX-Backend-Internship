@@ -18,8 +18,9 @@ namespace oop
 
             test.ToString();
 
-            Encapsolation encap = new Encapsolation();
-            encap.age = 20;
+            Trial.Encapsolation encap = new Trial.Encapsolation();
+            encap.setAge(-2);
+            Console.WriteLine("Age : " + encap.getAge());
 
         }
 
@@ -116,6 +117,11 @@ namespace oop
             private int age;
             private string name;
 
+            // default constructor
+            public Encapsolation()
+            {
+            }
+
             // constructor
             public Encapsolation(int age, string name)
             {
@@ -143,5 +149,7 @@ namespace oop
                 }
             }
         }
+
+
     }
 }
