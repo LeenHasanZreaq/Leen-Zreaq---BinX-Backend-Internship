@@ -35,6 +35,11 @@ namespace oop
             dog.run();
             Console.WriteLine(dog.Sound);
 
+
+            // interface : 
+            X x = new See();
+            x.show();
+
         }
 
 
@@ -195,9 +200,22 @@ namespace oop
                 Sound = sound;
             }
         }
-
-
-
-
     }
+
+
+    // interface : 
+
+    interface X
+    {
+        void show();
+    }
+
+    class See : X
+    {
+        public void show()
+        {
+            Console.WriteLine("interface");
+        }
+    }
+
 }
