@@ -18,7 +18,7 @@ namespace OrderSystem
                 order.Quantity
             );
 
-            Console.WriteLine("Order Summary (Record) ");
+            Console.WriteLine("=== Order Summary (Record) ===");
             Console.WriteLine(summary);
 
             Console.WriteLine();
