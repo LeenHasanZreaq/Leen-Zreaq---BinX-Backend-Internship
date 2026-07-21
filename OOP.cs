@@ -12,8 +12,11 @@ namespace oop
 
 
             Trial test = new Trial("ahmed", "1234");
-            Console.WriteLine("Name : " + test.getName() + " , Pass : " + test.getPass());
+            test.equals();
+            Console.WriteLine("Name : " + test.getName() + " 77, Pass : " + test.getPass());
 
+
+            test.ToString();
         }
 
 
@@ -67,6 +70,25 @@ namespace oop
         public void setPass(string pass)
         {
             this.pass = pass;
+        }
+
+        public void equals()
+        {
+            if (name.Equals(pass))
+            {
+                Console.WriteLine("Name and Pass are equal");
+            }
+            else
+            {
+                Console.WriteLine("Name and Pass are not equal");
+            }
+        }
+
+
+
+        public override string ToString()
+        {
+            return "Name : " + name + " Pass : " + pass;
         }
     }
 }
