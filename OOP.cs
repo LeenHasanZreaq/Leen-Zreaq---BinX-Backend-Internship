@@ -90,5 +90,19 @@ namespace oop
         {
             return "Name : " + name + " Pass : " + pass;
         }
+
+        // access modifier : 
+        // public , private , protected , internal , protected internal , private protected
+
+        class access
+        {
+            public string name;
+            private string pass;
+            protected string email;
+            internal string phone; // anywhere in this project only
+
+            protected internal string address; // same project OR any subclass
+            private protected string city; // same class OR any subclass in the same project
+        }
     }
 }
