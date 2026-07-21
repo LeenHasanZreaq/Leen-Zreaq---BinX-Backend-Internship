@@ -40,6 +40,11 @@ namespace oop
             X x = new See();
             x.show();
 
+            // polymarphism : 
+            poly p = new poly();
+            p.add(1, 2);
+            p.sound();
+
         }
 
 
@@ -215,6 +220,49 @@ namespace oop
         public void show()
         {
             Console.WriteLine("interface");
+        }
+    }
+
+
+
+
+
+
+
+    // overloading && overriding . 
+    public class Polymorphism
+    {
+        // note for me : 
+
+
+
+        // overloding : 
+        public void add(int num1, int num2)
+        {
+            Console.WriteLine("sum : " + (num1 + num2));
+        }
+
+        public void add(int num1, int num2, int num3)
+        {
+            Console.WriteLine("sum : " + (num1 + num2 + num3));
+        }
+
+
+
+        // overriding : 
+        // i cant write the @override like this in c#.
+
+        public virtual void sound()
+        {
+            Console.WriteLine("The animal makes a sound.");
+        }
+    }
+
+    public class poly : Polymorphism
+    {
+        public override void sound()
+        {
+            Console.WriteLine("The dog barks.");
         }
     }
 
