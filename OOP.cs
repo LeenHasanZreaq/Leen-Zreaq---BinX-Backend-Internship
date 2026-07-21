@@ -16,11 +16,24 @@ namespace oop
             Console.WriteLine("Name : " + test.getName() + " 77, Pass : " + test.getPass());
 
 
-            test.ToString();
+            Console.WriteLine(test.ToString());
 
             Trial.Encapsolation encap = new Trial.Encapsolation();
             encap.setAge(-2);
             Console.WriteLine("Age : " + encap.getAge());
+
+
+
+
+
+
+
+
+            // Inheritance
+
+            Trial.Dog dog = new Trial.Dog("wooooof");
+            dog.run();
+            Console.WriteLine(dog.Sound);
 
         }
 
@@ -149,6 +162,41 @@ namespace oop
                 }
             }
         }
+
+
+        public class InheritanceAnimal
+        {
+
+
+            public void eat()
+            {
+                Console.WriteLine("Animal is eating");
+            }
+
+            public void sleep()
+            {
+                Console.WriteLine("Animal is sleeping");
+            }
+
+            public void run()
+            {
+                Console.WriteLine("Animal is running");
+            }
+
+
+        }
+
+        public class Dog : InheritanceAnimal
+        {
+            public string Sound { get; set; }
+
+            public Dog(string sound)
+            {
+                Sound = sound;
+            }
+        }
+
+
 
 
     }
