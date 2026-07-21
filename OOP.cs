@@ -17,6 +17,10 @@ namespace oop
 
 
             test.ToString();
+
+            Encapsolation encap = new Encapsolation();
+            encap.age = 20;
+
         }
 
 
@@ -103,6 +107,41 @@ namespace oop
 
             protected internal string address; // same project OR any subclass
             private protected string city; // same class OR any subclass in the same project
+        }
+
+
+
+        public class Encapsolation
+        {
+            private int age;
+            private string name;
+
+            // constructor
+            public Encapsolation(int age, string name)
+            {
+                this.age = age;
+                this.name = name;
+            }
+
+
+
+            // getter and setter for name
+            public int getAge()
+            {
+                return age;
+            }
+
+            public void setAge(int age)
+            {
+                if (age < 0)
+                {
+                    Console.WriteLine("Age must be greater than 0");
+                }
+                else
+                {
+                    this.age = age;
+                }
+            }
         }
     }
 }
