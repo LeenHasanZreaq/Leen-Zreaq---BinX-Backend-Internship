@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace oop
 {
@@ -15,6 +16,9 @@ namespace oop
         {
             public int x;
             public int y;
+
+            // i cant make x = y becouse x and y are 2 variables in the deferent plase in the heap 
+
 
             public Position(int x, int y)
             {
