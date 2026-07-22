@@ -14,6 +14,8 @@ namespace Data
             linkedlist();
             hashSet();
             treeSet();
+            linkedHashSet();
+            hashMap();
         }
 
         ////////////////////////////////////////
@@ -89,5 +91,44 @@ namespace Data
             }
 
         }
+
+        ///////////////////////////////////////////////////
+        public static void linkedHashSet()
+        {
+            List<string> linkedHashSet = new List<string>();
+            AddUnique(linkedHashSet, "first");
+            AddUnique(linkedHashSet, "secound");
+            AddUnique(linkedHashSet, "third");
+            AddUnique(linkedHashSet, "first");
+
+            foreach (string item in linkedHashSet)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        public static void AddUnique(List<string> linkedHashSet, string value)
+        {
+            if (!linkedHashSet.Contains(value))
+            {
+                linkedHashSet.Add(value);
+            }
+        }
+
+
+        ///////////////////////////////////////////////////
+        public static void hashMap()
+        {
+            Dictionary<string, int> hashMap = new Dictionary<string, int>();
+            hashMap["math"] = 85;
+            hashMap["Physics"] = 90;
+            hashMap["math"] = 95;
+
+            foreach (KeyValuePair<string, int> pair in hashMap)
+            {
+                Console.WriteLine(pair.Key + " : " + pair.Value);
+            }
+        }
+
     }
 }
