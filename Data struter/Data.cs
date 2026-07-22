@@ -9,6 +9,11 @@ namespace Data
         // tree map , linked hash map , 
         public static void Main(string[] args)
         {
+            arrlist();
+        }
+
+        public static void arrlist()
+        {
             List<int> arr = new List<int>();
             arr.Add(2);
             arr.Add(3);
@@ -19,12 +24,11 @@ namespace Data
 
             for (int i = 0; i < arr.Count; i++)
             {
-                Console.WriteLine(x[i] + " ");
+                Console.WriteLine(arr[i] + " ");
             }
 
             // to conver the list to array 
             int[] x = arr.ToArray();
-
         }
     }
 }
