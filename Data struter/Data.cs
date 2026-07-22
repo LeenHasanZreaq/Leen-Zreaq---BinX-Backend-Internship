@@ -18,6 +18,7 @@ namespace Data
             hashMap();
             TreeMap();
             Lambda();
+            Syntax();
         }
 
         ////////////////////////////////////////
@@ -174,5 +175,55 @@ namespace Data
 
         }
 
+
+
+
+        public static void Syntax()
+        {
+            List<Student> students = new List<Student>(){
+            new Student{Name="Ali",Age=20},
+            new Student{Name="Sara",Age=18},
+            new Student{Name="Ahmad",Age=22},
+            new Student{Name="Lina",Age=19}
+            };
+
+            // Method Syntax
+            var methodeResult = students.Where(s => s.Age > 19).Select(s => s.Name);
+            Console.WriteLine("Method Syntax:");
+
+            foreach (var name in methodeResult)
+            {
+                Console.WriteLine(name);
+            }
+
+
+
+
+
+
+            // Query Syntax 
+            var queryResult = from s in students
+                              where s.Age > 10
+                              select s.Name;
+
+
+            Console.WriteLine("\nQuery Syntax:");
+
+            foreach (var name in queryResult)
+                Console.WriteLine(name);
+        }
+
+
+
+
+
+
     }
+
+    class Student
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
+
 }
