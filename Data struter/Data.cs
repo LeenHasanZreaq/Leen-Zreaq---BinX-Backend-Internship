@@ -11,6 +11,7 @@ namespace Data
         {
             arrlist();
             linkedlist();
+            hashSet();
         }
 
         ////////////////////////////////////////
@@ -56,6 +57,20 @@ namespace Data
                 Console.WriteLine(item + "->");
             }
 
+        }
+
+
+        public static void hashSet()
+        {
+            HashSet<string> hashseet = new HashSet<string>();
+            hashseet.Add("hi");
+            hashseet.Add("hi hi");
+            hashseet.Add("hi hi hi");
+
+            foreach (string item in hashseet)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
