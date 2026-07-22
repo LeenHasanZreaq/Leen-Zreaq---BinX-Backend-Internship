@@ -10,8 +10,10 @@ namespace Data
         public static void Main(string[] args)
         {
             arrlist();
+            linkedlist();
         }
 
+        ////////////////////////////////////////
         public static void arrlist()
         {
             List<int> arr = new List<int>();
@@ -29,6 +31,31 @@ namespace Data
 
             // to conver the list to array 
             int[] x = arr.ToArray();
+        }
+        ///////////////////////////////////////////////////
+
+        public static void linkedlist()
+        {
+            //Add elements to the ends
+            LinkedList<String> linked = new LinkedList<string>();
+            linked.AddLast("Leen");
+            linked.AddLast("Hasan");
+            linked.AddLast("Zreaq");
+
+            foreach (var item in linked)
+            {
+                Console.WriteLine(item + "->");
+            }
+
+            // insert after the first node 
+            LinkedListNode<string> firstNode = linked.First;
+            linked.AddAfter(firstNode, "abdalhalem");
+
+            foreach (var item in linked)
+            {
+                Console.WriteLine(item + "->");
+            }
+
         }
     }
 }
