@@ -1,6 +1,7 @@
 using System;
 // Data Structer
 
+
 namespace Data
 {
     class Test
@@ -12,6 +13,7 @@ namespace Data
             arrlist();
             linkedlist();
             hashSet();
+            treeSet();
         }
 
         ////////////////////////////////////////
@@ -59,7 +61,7 @@ namespace Data
 
         }
 
-
+        ///////////////////////////////////////////////////
         public static void hashSet()
         {
             HashSet<string> hashseet = new HashSet<string>();
@@ -71,6 +73,21 @@ namespace Data
             {
                 Console.WriteLine(item);
             }
+        }
+
+        ///////////////////////////////////////////////////
+        public static void treeSet()
+        {
+            SortedSet<int> sort = new SortedSet<int>();
+            sort.Add(30);
+            sort.Add(10);
+            sort.Add(20);
+
+            foreach (int num in sort)
+            {
+                Console.WriteLine(num);
+            }
+
         }
     }
 }
