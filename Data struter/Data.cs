@@ -16,6 +16,7 @@ namespace Data
             treeSet();
             linkedHashSet();
             hashMap();
+            TreeMap();
         }
 
         ////////////////////////////////////////
@@ -128,6 +129,21 @@ namespace Data
             {
                 Console.WriteLine(pair.Key + " : " + pair.Value);
             }
+        }
+
+
+        ///////////////////////////////////////////////////
+        public static void TreeMap()
+        {
+            SortedDictionary<string, int> treemap = new SortedDictionary<string, int>();
+            treemap["hi"] = 70;
+            treemap["hi1"] = 60;
+
+            foreach (KeyValuePair<string, int> pair in treemap)
+            {
+                Console.WriteLine(pair.Key + ": " + pair.Value);
+            }
+
         }
 
     }
