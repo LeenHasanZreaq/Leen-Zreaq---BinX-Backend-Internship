@@ -17,6 +17,7 @@ namespace Data
             linkedHashSet();
             hashMap();
             TreeMap();
+            Lambda();
         }
 
         ////////////////////////////////////////
@@ -142,6 +143,33 @@ namespace Data
             foreach (KeyValuePair<string, int> pair in treemap)
             {
                 Console.WriteLine(pair.Key + ": " + pair.Value);
+            }
+
+        }
+
+
+
+
+
+
+
+
+        // Lambda Expression
+        public static void Lambda()
+        {
+            List<string> names = new List<string>()
+            {
+                "Alaa",
+                "Ahmad",
+                "Sara",
+                "Omar",
+                "Lina"
+            };
+
+            var result = names.Where(name => name.StartsWith("A"));
+            foreach (string item in result)
+            {
+                Console.WriteLine(item);
             }
 
         }
