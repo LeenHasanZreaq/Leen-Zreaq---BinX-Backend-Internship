@@ -11,7 +11,7 @@ This project contains my first C# practice program. It demonstrates the basic sy
 - `int`
 - `long`
 - `short`
-- `string`
+- `string` 
 - `bool`
 
 ### Console Input and Output
