@@ -3,7 +3,9 @@ using System.Collections.Generic;
 // Generics and advanced collections 
 namespace Week2
 {
-    // 1.1 , 1.2 => done 
+    // 1.1 , 1.2 => done .
+    // 1.3 => done .
+    // 1.4 => 
     class Day1
     {
 
@@ -24,6 +26,11 @@ namespace Week2
 
             Console.WriteLine("Highest: " + grades.GetHighestScore());
             Console.WriteLine("Lowest: " + grades.GetLowestScore());
+
+
+            Console.WriteLine("........................................");
+            Choosing chooser = new Choosing();
+            chooser.PrintAll(new List<string> { "a", "b", "c" });
         }
 
         public void AddBook(string author, string title)
@@ -78,6 +85,21 @@ namespace Week2
                 }
             }
             return lowest;
+        }
+    }
+
+
+
+    public class Choosing
+    {
+        // IEnumerable , ICollection , IDictionary<TKey, TValue> , IList<T> . ISet<T> , IReadOnlyList<T> .
+
+        public void PrintAll(IEnumerable<string> item)
+        {
+            foreach (var items in item)
+            {
+                Console.WriteLine(items);
+            }
         }
     }
 }
