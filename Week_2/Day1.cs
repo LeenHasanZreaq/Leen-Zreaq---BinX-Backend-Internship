@@ -5,7 +5,7 @@ namespace Week2
 {
     // 1.1 , 1.2 => done .
     // 1.3 => done .
-    // 1.4 => 
+    // 1.4 => done .
     class Day1
     {
 
