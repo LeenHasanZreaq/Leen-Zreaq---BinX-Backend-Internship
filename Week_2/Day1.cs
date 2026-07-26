@@ -31,6 +31,12 @@ namespace Week2
             Console.WriteLine("........................................");
             Choosing chooser = new Choosing();
             chooser.PrintAll(new List<string> { "a", "b", "c" });
+
+            Console.WriteLine("........................................");
+
+            List<string> names = new List<string> { "ahmad", "Sara" };
+            chooser.AddIfMissing(names, "leen");
+            Console.WriteLine(string.Join(", ", names));
         }
 
         public void AddBook(string author, string title)
@@ -100,6 +106,15 @@ namespace Week2
             {
                 Console.WriteLine(items);
             }
+        }
+
+        public void AddIfMissing(ICollection<string> item, string newItem)
+        {
+            if (!item.Contains(newItem))
+            {
+                item.Add(newItem);
+            }
+            Console.WriteLine("all : " + item.Count);
         }
     }
 }
