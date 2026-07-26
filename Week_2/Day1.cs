@@ -53,6 +53,12 @@ namespace Week2
 
             chooser.PrintDictionary(data);
 
+
+            HashSet<int> a = new HashSet<int> { 1, 2, 3 };
+            HashSet<int> b = new HashSet<int> { 3, 4, 5 };
+
+            chooser.ShowUnion(a, b);
+
         }
 
         public void AddBook(string author, string title)
@@ -145,6 +151,12 @@ namespace Week2
             {
                 Console.WriteLine($"{pair.Key} : {pair.Value}");
             }
+        }
+
+        public void ShowUnion(ISet<int> a, ISet<int> b)
+        {
+            a.UnionWith(b);
+            Console.WriteLine(string.Join(", ", a));
         }
     }
 }
