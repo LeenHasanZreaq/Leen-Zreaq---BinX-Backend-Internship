@@ -37,6 +37,22 @@ namespace Week2
             List<string> names = new List<string> { "ahmad", "Sara" };
             chooser.AddIfMissing(names, "leen");
             Console.WriteLine(string.Join(", ", names));
+
+            List<string> items = new List<string> { "apple", "banana", "cherry" };
+            Console.WriteLine("........................................");
+            string second = chooser.GetSecondItem(items);
+            Console.WriteLine(second);
+
+
+            Dictionary<string, int> data = new Dictionary<string, int>()
+            {
+                { "ahmad", 90 },
+                { "Sara", 85 },
+                { "Omar", 70 }
+            };
+
+            chooser.PrintDictionary(data);
+
         }
 
         public void AddBook(string author, string title)
@@ -115,6 +131,20 @@ namespace Week2
                 item.Add(newItem);
             }
             Console.WriteLine("all : " + item.Count);
+        }
+
+        public string GetSecondItem(IList<string> item)
+        {
+            return item[1];
+        }
+
+
+        public void PrintDictionary(IDictionary<string, int> item)
+        {
+            foreach (var pair in item)
+            {
+                Console.WriteLine($"{pair.Key} : {pair.Value}");
+            }
         }
     }
 }
