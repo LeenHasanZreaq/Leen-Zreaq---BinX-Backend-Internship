@@ -31,5 +31,18 @@ public class UserServiceAsync
         Console.WriteLine(profileTask.Result);
         Console.WriteLine(ordersTask.Result);
         Console.WriteLine($"Total time: {(DateTime.Now - start).TotalMilliseconds}ms");
+
+        Console.WriteLine("Starting...");
+
+        string result = await GetDataAsync();
+
+        Console.WriteLine(result);
+        Console.WriteLine("Done!");
+    }
+
+    public static async Task<string> GetDataAsync()
+    {
+        await Task.Delay(2000).ConfigureAwait(false);
+        return "Data";
     }
 }
