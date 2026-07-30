@@ -31,3 +31,7 @@
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.pdb
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.genruntimeconfig.cache
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/ref/MyWebProject.dll
+/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.sourcelink.json
