@@ -18,4 +18,10 @@
     <Compile Remove="week_3/**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="week_3/small_project_for_Day1/Controllers/**/*.cs" />
+    <Compile Include="week_3/small_project_for_Day1/Models/**/*.cs" />
+    <Compile Include="week_3/small_project_for_Day1/Services/**/*.cs" />
+  </ItemGroup>
+
 </Project>
