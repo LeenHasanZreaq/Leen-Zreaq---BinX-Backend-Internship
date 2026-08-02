@@ -256,3 +256,665 @@ During Week 1, I gained practical experience with:
 - Feature Branch Workflow
 - Writing Meaningful Commit Messages
 - Pull Requests
+
+
+
+
+
+
+
+# Week 2 — Advanced C# & ASP.NET Core Foundations 🚀
+
+## 📌 Overview
+
+During Week 2, I moved from basic C# fundamentals into advanced C# concepts and started building real ASP.NET Core Web APIs.
+
+The focus was understanding how modern .NET applications are structured, how data is processed efficiently, how asynchronous operations work, and how HTTP requests travel through the ASP.NET Core pipeline.
+
+This week covered:
+
+- Advanced C# type system
+- Generics and reusable code
+- Advanced LINQ operations
+- Async/Await and concurrency
+- ASP.NET Core Web API architecture
+- Routing and HTTP verbs
+- Middleware pipeline
+- Dependency Injection
+- Building and testing REST APIs
+
+---
+
+# 🧠 Topics Learned
+
+## 1. Advanced C# Generics
+
+### What are Generics?
+
+Generics allow creating reusable classes and methods while maintaining type safety.
+
+Before generics, developers used `object` collections which required casting and could cause runtime errors.
+
+Example:
+
+```csharp
+List<int> numbers = new();
+List<string> names = new();
+```
+
+The compiler knows the exact type stored in each collection.
+
+---
+
+## Generic Classes
+
+Created reusable generic components:
+
+```csharp
+public class Repository<T> where T : class
+{
+    private readonly List<T> items = new();
+
+    public void Add(T item)
+    {
+        items.Add(item);
+    }
+
+    public IReadOnlyList<T> GetAll()
+    {
+        return items.AsReadOnly();
+    }
+}
+```
+
+### Concepts Practiced:
+
+- Type parameters `<T>`
+- Generic constraints
+- Reusable architecture
+- Type safety
+
+---
+
+# 2. Advanced Collections
+
+Learned the difference between:
+
+| Interface | Usage |
+|-|-|
+| IEnumerable<T> | Read-only iteration |
+| IReadOnlyList<T> | Read-only list with index access |
+| IList<T> | Full modification |
+
+Best practice:
+
+> Return the least powerful interface needed.
+
+Example:
+
+```csharp
+IEnumerable<User> GetUsers()
+```
+
+is better than:
+
+```csharp
+List<User> GetUsers()
+```
+
+because it prevents unnecessary modifications.
+
+---
+
+# 3. Advanced LINQ
+
+LINQ is used to query and transform collections.
+
+## Deferred Execution
+
+LINQ queries do not execute immediately.
+
+Example:
+
+```csharp
+var result = users.Where(x => x.Age > 18);
+```
+
+The query runs only when:
+
+```csharp
+foreach(var user in result)
+```
+
+or:
+
+```csharp
+result.ToList();
+```
+
+---
+
+## GroupBy
+
+Used for grouping data.
+
+Example:
+
+Grouping orders by customer:
+
+```csharp
+var orders =
+ordersList
+.GroupBy(o => o.CustomerId)
+.Select(g => new
+{
+    Customer = g.Key,
+    Total = g.Sum(x => x.Amount)
+});
+```
+
+---
+
+## Join
+
+Combining related collections.
+
+Example:
+
+Customers + Orders:
+
+```csharp
+var result =
+customers.Join(
+orders,
+c => c.Id,
+o => o.CustomerId,
+(c,o)=> new
+{
+    c.Name,
+    o.Amount
+});
+```
+
+---
+
+## SelectMany
+
+Used for flattening nested collections.
+
+Example:
+
+Before:
+
+```
+Customer
+   |
+   Orders
+      |
+      Items
+```
+
+After SelectMany:
+
+```
+Item
+Item
+Item
+```
+
+---
+
+# 4. Async/Await & Concurrency
+
+Learned how asynchronous programming improves application performance.
+
+## Task
+
+Represents an operation that will complete in the future.
+
+Example:
+
+```csharp
+public async Task<string> GetDataAsync()
+{
+    await Task.Delay(1000);
+
+    return "Finished";
+}
+```
+
+---
+
+## Async All The Way
+
+Avoid:
+
+```csharp
+var result = GetDataAsync().Result;
+```
+
+Correct:
+
+```csharp
+var result = await GetDataAsync();
+```
+
+---
+
+## Task.WhenAll
+
+Running multiple operations concurrently.
+
+Example:
+
+```csharp
+var task1 = GetUsersAsync();
+var task2 = GetOrdersAsync();
+var task3 = GetProductsAsync();
+
+await Task.WhenAll(task1,task2,task3);
+```
+
+Instead of waiting:
+
+```
+Task1 → Task2 → Task3
+
+3 seconds
+```
+
+They run together:
+
+```
+Task1
+Task2
+Task3
+
+1 second
+```
+
+---
+
+## CancellationToken
+
+Used to stop long-running operations.
+
+Example:
+
+```csharp
+public async Task ProcessAsync(
+CancellationToken token)
+{
+    await Task.Delay(5000, token);
+}
+```
+
+---
+
+# 5. ASP.NET Core Web API
+
+Created the first Web API project.
+
+Architecture:
+
+```
+Client
+ |
+HTTP Request
+ |
+Middleware Pipeline
+ |
+Routing
+ |
+Controller
+ |
+Service
+ |
+Response
+```
+
+---
+
+# 6. Controllers & Routing
+
+Created API endpoints using Controllers.
+
+Example:
+
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class BooksController : ControllerBase
+{
+
+}
+```
+
+---
+
+## HTTP Methods
+
+| Method | Purpose |
+|-|-|
+| GET | Retrieve data |
+| POST | Create data |
+| PUT | Update data |
+| DELETE | Remove data |
+
+Example:
+
+```
+GET /api/books
+
+GET /api/books/5
+
+POST /api/books
+
+DELETE /api/books/5
+```
+
+---
+
+# 7. Minimal APIs
+
+Learned creating endpoints directly in Program.cs.
+
+Example:
+
+```csharp
+app.MapGet("/books",
+() =>
+{
+    return books;
+});
+```
+
+Compared with Controllers:
+
+| Controllers | Minimal APIs |
+|-|-|
+| Better for large projects | Good for small APIs |
+| Organized structure | Less code |
+| Easier testing | Faster development |
+
+---
+
+# 8. Middleware Pipeline
+
+Middleware is a chain that every HTTP request passes through.
+
+Example:
+
+```
+Request
+
+ ↓
+
+HTTPS Middleware
+
+ ↓
+
+Authentication
+
+ ↓
+
+Authorization
+
+ ↓
+
+Controller
+
+ ↓
+
+Response
+```
+
+---
+
+Created custom middleware:
+
+```csharp
+public class LoggingMiddleware
+{
+    private readonly RequestDelegate next;
+
+    public LoggingMiddleware(RequestDelegate next)
+    {
+        this.next = next;
+    }
+
+
+    public async Task Invoke(HttpContext context)
+    {
+        Console.WriteLine(
+        context.Request.Path);
+
+        await next(context);
+    }
+}
+```
+
+---
+
+# 9. Dependency Injection (DI)
+
+Learned how ASP.NET Core manages dependencies.
+
+Instead of:
+
+```csharp
+var service = new BookService();
+```
+
+We inject:
+
+```csharp
+public BooksController(
+IBookService service)
+{
+    _service = service;
+}
+```
+
+---
+
+## Service Lifetimes
+
+| Lifetime | Description |
+|-|-|
+| Transient | New instance every request |
+| Scoped | One instance per HTTP request |
+| Singleton | One instance for whole application |
+
+Example:
+
+```csharp
+builder.Services
+.AddScoped<IBookService,BookService>();
+```
+
+---
+
+# 🛠️ Project 1: Generic Repository & LINQ Analyzer
+
+## Description
+
+A C# console application demonstrating:
+
+- Generic Repository Pattern
+- Generic Constraints
+- Advanced LINQ
+- Grouping
+- Joining
+- SelectMany
+- Deferred Execution
+
+
+## Features
+
+✅ Add entities dynamically  
+✅ Search using predicates  
+✅ Group data  
+✅ Join related collections  
+✅ Flatten nested objects  
+
+
+## Technologies
+
+- C#
+- .NET SDK
+- LINQ
+
+---
+
+## Project Structure
+
+```
+GenericRepositoryProject
+
+│
+├── Models
+│   ├── Customer.cs
+│   ├── Order.cs
+│
+├── Repository
+│   └── Repository.cs
+│
+├── Services
+│   └── LinqService.cs
+│
+└── Program.cs
+```
+
+---
+
+# 🛠️ Project 2: Book Management REST API
+
+## Description
+
+A complete ASP.NET Core Web API for managing books.
+
+The project applies:
+
+- Controllers
+- Routing
+- Middleware
+- Dependency Injection
+- Services
+- DTO pattern
+- Async operations
+
+
+---
+
+## Features
+
+### Books API
+
+```
+GET /api/books
+
+GET /api/books/{id}
+
+POST /api/books
+
+PUT /api/books/{id}
+
+DELETE /api/books/{id}
+```
+
+---
+
+## Architecture
+
+```
+BookAPI
+
+│
+├── Controllers
+│     └── BooksController.cs
+│
+├── Services
+│     ├── IBookService.cs
+│     └── BookService.cs
+│
+├── DTOs
+│     └── BookDTO.cs
+│
+├── Models
+│     └── Book.cs
+│
+├── Middleware
+│     └── LoggingMiddleware.cs
+│
+└── Program.cs
+```
+
+---
+
+# Testing
+
+Used:
+
+- Swagger
+- Postman
+
+
+Tested:
+
+✅ GET Requests  
+✅ POST Requests  
+✅ PUT Requests  
+✅ DELETE Requests  
+
+
+---
+
+# GitHub Deliverables
+
+Completed:
+
+✅ Generic Repository implementation
+
+✅ LINQ exercises
+
+✅ Async concurrency demo
+
+✅ ASP.NET Core Web API
+
+✅ Controllers
+
+✅ Minimal APIs
+
+✅ Middleware
+
+✅ Dependency Injection
+
+
+---
+
+# Skills Gained
+
+After completing Week 2:
+
+- Ability to design reusable C# components
+- Understanding LINQ data processing
+- Writing asynchronous code correctly
+- Building REST APIs with ASP.NET Core
+- Understanding request lifecycle
+- Applying Dependency Injection
+- Structuring backend projects professionally
+
+
+---
+
+# Next Step 🚀
+
+Week 3 will extend these foundations by adding:
+
+- Entity Framework Core
+- SQL Server
+- Database relationships
+- Authentication
+- Advanced REST API design
+- Real data persistence
