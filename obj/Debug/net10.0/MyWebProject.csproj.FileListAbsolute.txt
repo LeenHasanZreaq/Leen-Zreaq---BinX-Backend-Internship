@@ -8,6 +8,9 @@
 /home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/MyWebProject.pdb
 /home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Microsoft.AspNetCore.OpenApi.dll
 /home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Microsoft.OpenApi.dll
+/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.csproj.AssemblyReference.cache
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/rpswa.dswa.cache.json
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.GeneratedMSBuildEditorConfig.editorconfig
@@ -16,6 +19,7 @@
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.csproj.CoreCompileInputs.cache
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.MvcApplicationPartsAssemblyInfo.cs
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.MvcApplicationPartsAssemblyInfo.cache
+/home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.sourcelink.json
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/rjimswa.dswa.cache.json
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
@@ -31,7 +35,3 @@
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.pdb
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.genruntimeconfig.cache
 /home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/ref/MyWebProject.dll
-/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.Swagger.dll
-/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
-/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-/home/leen1/Desktop/MyWebProject/obj/Debug/net10.0/MyWebProject.sourcelink.json

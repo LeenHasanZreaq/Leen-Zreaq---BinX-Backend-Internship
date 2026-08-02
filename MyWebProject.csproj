@@ -12,4 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Week_1/**" />
+    <Compile Remove="Week_2/**" />
+    <Compile Remove="week_3/**" />
+  </ItemGroup>
+
 </Project>
