@@ -1,4 +1,4 @@
-using WeatherApp.Models;
+using WeatherApp.Week2.Models;
 
 namespace MyWebProject.Services;
 

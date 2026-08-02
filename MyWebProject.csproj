@@ -19,9 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="week_3/small_project_for_Day1/Controllers/**/*.cs" />
-    <Compile Include="week_3/small_project_for_Day1/Models/**/*.cs" />
-    <Compile Include="week_3/small_project_for_Day1/Services/**/*.cs" />
+    <Compile Include="week_3/Day_1/small_project_for_Day1/Controllers/**/*.cs" />
+    <Compile Include="week_3/Day_1/small_project_for_Day1/Models/**/*.cs" />
+    <Compile Include="week_3/Day_1/small_project_for_Day1/Services/**/*.cs" />
+    <Compile Include="Week_2/day5/new_project_forWeek2/**/*.cs" />
   </ItemGroup>
 
 </Project>

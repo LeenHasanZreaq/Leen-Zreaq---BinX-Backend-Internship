@@ -1,4 +1,4 @@
-namespace WeatherApp.Models;
+namespace WeatherApp.Week2.Models;
 
 public class Weather
 {
