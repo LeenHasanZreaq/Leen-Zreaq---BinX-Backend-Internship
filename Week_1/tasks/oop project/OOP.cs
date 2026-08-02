@@ -1,0 +1,269 @@
+using System;
+using System.Security.Cryptography.X509Certificates;
+
+namespace oop
+{
+    class OOPClass
+    {
+        public static void Main(string[] args)
+        {
+            Position player = new Position(10, 20);
+            Console.WriteLine("X : " + player.x + " Y : " + player.y);
+
+
+            Trial test = new Trial("ahmed", "1234");
+            test.equals();
+            Console.WriteLine("Name : " + test.getName() + " 77, Pass : " + test.getPass());
+
+
+            Console.WriteLine(test.ToString());
+
+            Trial.Encapsolation encap = new Trial.Encapsolation();
+            encap.setAge(-2);
+            Console.WriteLine("Age : " + encap.getAge());
+
+
+
+
+
+
+
+
+            // Inheritance
+
+            Trial.Dog dog = new Trial.Dog("wooooof");
+            dog.run();
+            Console.WriteLine(dog.Sound);
+
+
+            // interface : 
+            X x = new See();
+            x.show();
+
+            // polymarphism : 
+            poly p = new poly();
+            p.add(1, 2);
+            p.sound();
+
+        }
+
+
+        struct Position
+        {
+            public int x;
+            public int y;
+
+            // i cant make x = y becouse x and y are 2 variables in the deferent plase in the heap 
+
+
+            public Position(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
+    }
+
+
+    // make this class to test the oop class , and make constructor => defult constructor and full constructor
+    // object , getter and setter for the class
+    class Trial
+    {
+        private string name;
+        private string pass;
+
+
+        public Trial(string name, string pass)
+        {
+            this.name = name;
+            this.pass = pass;
+        }
+
+        public string getName()
+        {
+            return name;
+        }
+
+        public void setName(string name)
+        {
+            this.name = name;
+        }
+
+
+        public string getPass()
+        {
+            return pass;
+        }
+
+        public void setPass(string pass)
+        {
+            this.pass = pass;
+        }
+
+        public void equals()
+        {
+            if (name.Equals(pass))
+            {
+                Console.WriteLine("Name and Pass are equal");
+            }
+            else
+            {
+                Console.WriteLine("Name and Pass are not equal");
+            }
+        }
+
+
+
+        public override string ToString()
+        {
+            return "Name : " + name + " Pass : " + pass;
+        }
+
+        // access modifier : 
+        // public , private , protected , internal , protected internal , private protected
+
+        class access
+        {
+            public string name;
+            private string pass;
+            protected string email;
+            internal string phone; // anywhere in this project only
+
+            protected internal string address; // same project OR any subclass
+            private protected string city; // same class OR any subclass in the same project
+        }
+
+
+
+        public class Encapsolation
+        {
+            private int age;
+            private string name;
+
+            // default constructor
+            public Encapsolation()
+            {
+            }
+
+            // constructor
+            public Encapsolation(int age, string name)
+            {
+                this.age = age;
+                this.name = name;
+            }
+
+
+
+            // getter and setter for name
+            public int getAge()
+            {
+                return age;
+            }
+
+            public void setAge(int age)
+            {
+                if (age < 0)
+                {
+                    Console.WriteLine("Age must be greater than 0");
+                }
+                else
+                {
+                    this.age = age;
+                }
+            }
+        }
+
+
+        public class InheritanceAnimal
+        {
+
+
+            public void eat()
+            {
+                Console.WriteLine("Animal is eating");
+            }
+
+            public void sleep()
+            {
+                Console.WriteLine("Animal is sleeping");
+            }
+
+            public void run()
+            {
+                Console.WriteLine("Animal is running");
+            }
+
+
+        }
+
+        public class Dog : InheritanceAnimal
+        {
+            public string Sound { get; set; }
+
+            public Dog(string sound)
+            {
+                Sound = sound;
+            }
+        }
+    }
+
+
+    // interface : 
+
+    interface X
+    {
+        void show();
+    }
+
+    class See : X
+    {
+        public void show()
+        {
+            Console.WriteLine("interface");
+        }
+    }
+
+
+
+
+
+
+
+    // overloading && overriding . 
+    public class Polymorphism
+    {
+        // note for me : 
+
+
+
+        // overloding : 
+        public void add(int num1, int num2)
+        {
+            Console.WriteLine("sum : " + (num1 + num2));
+        }
+
+        public void add(int num1, int num2, int num3)
+        {
+            Console.WriteLine("sum : " + (num1 + num2 + num3));
+        }
+
+
+
+        // overriding : 
+        // i cant write the @override like this in c#.
+
+        public virtual void sound()
+        {
+            Console.WriteLine("The animal makes a sound.");
+        }
+    }
+
+    public class poly : Polymorphism
+    {
+        public override void sound()
+        {
+            Console.WriteLine("The dog barks.");
+        }
+    }
+
+}
