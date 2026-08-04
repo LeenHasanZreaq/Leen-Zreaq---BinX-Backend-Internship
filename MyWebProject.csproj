@@ -9,20 +9,20 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Week_1/**" />
     <Compile Remove="Week_2/**" />
-    <Compile Remove="week_3/**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="week_3/Day_1/small_project_for_Day1/Controllers/**/*.cs" />
-    <Compile Include="week_3/Day_1/small_project_for_Day1/Models/**/*.cs" />
-    <Compile Include="week_3/Day_1/small_project_for_Day1/Services/**/*.cs" />
-    <Compile Include="Week_2/day5/new_project_forWeek2/**/*.cs" />
+    <Compile Remove="week_3/Day1/**" />
+    <Compile Remove="week_3/Day2/**" />
   </ItemGroup>
 
 </Project>
