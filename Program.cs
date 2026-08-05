@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MyWebProject.week_3.Day3.Data;
+using MyWebProject.week_3.Day4.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<Day4DbContext>(options =>
 {
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"));

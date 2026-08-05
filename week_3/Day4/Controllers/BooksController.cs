@@ -9,9 +9,9 @@ namespace MyWebProject.week_3.Day4.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly Day4DbContext _context;
 
-    public BooksController(AppDbContext context)
+    public BooksController(Day4DbContext context)
     {
         _context = context;
     }

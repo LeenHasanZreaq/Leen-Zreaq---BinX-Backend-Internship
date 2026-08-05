@@ -4,9 +4,9 @@ using MyWebProject.week_3.Day4.Models;
 namespace MyWebProject.week_3.Day4.Data;
 
 
-public class AppDbContext : DbContext
+public class Day4DbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
+    public Day4DbContext(DbContextOptions<Day4DbContext> options)
         : base(options)
     {
 
