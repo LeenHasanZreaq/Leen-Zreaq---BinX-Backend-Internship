@@ -13,4 +13,15 @@ public class Day4DbContext : DbContext
     }
 
     public DbSet<Book> Books => Set<Book>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Book>(builder =>
+        {
+            builder.Property(b => b.Price)
+                   .HasPrecision(18, 2);
+        });
+
+        base.OnModelCreating(modelBuilder);
+    }
 }
