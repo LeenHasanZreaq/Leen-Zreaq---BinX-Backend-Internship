@@ -16,7 +16,7 @@ public class BooksController : ControllerBase
         _context = context;
     }
 
-    // GET 
+    // GET for all books
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
@@ -24,7 +24,7 @@ public class BooksController : ControllerBase
         return Ok(await _context.Books.ToListAsync());
     }
 
-    // GET BY ID
+    // GET book BY ID 
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Book>> GetBook(int id)
@@ -37,7 +37,7 @@ public class BooksController : ControllerBase
         return Ok(book);
     }
 
-    // CREATE
+    // CREATE book
 
     [HttpPost]
     public async Task<ActionResult<Book>> CreateBook(Book book)
