@@ -1,0 +1,276 @@
+{
+    "info": {
+        "_postman_id": "f3b1d5ed-1f89-44aa-9b81-a2f2ee3c9e04",
+        "name": "Week 3 Day 4 - Books API",
+        "description": "CRUD requests for the Day 4 Books API, with happy-path and error-path examples for mentor review.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5119"
+        },
+        {
+            "key": "bookId",
+            "value": "1"
+        }
+    ],
+    "item": [
+        {
+            "name": "Books",
+            "description": "Resource folder for the Books controller.",
+            "item": [
+                {
+                    "name": "Happy path",
+                    "item": [
+                        {
+                            "name": "Get all books",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": "{{baseUrl}}/api/Books"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get book by id",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": "{{baseUrl}}/api/Books/{{bookId}}"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Create book",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
+                                            "if (pm.response.code === 201) {",
+                                            "  const jsonData = pm.response.json();",
+                                            "  pm.environment.set(\"bookId\", jsonData.id);",
+                                            "}"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"title\": \"The Hobbit\",\n  \"author\": \"J.R.R. Tolkien\",\n  \"price\": 19.99\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": "{{baseUrl}}/api/Books"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Update book",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 204\", function () { pm.response.to.have.status(204); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"id\": 1,\n  \"title\": \"Updated Title\",\n  \"author\": \"Updated Author\",\n  \"price\": 29.99\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": "{{baseUrl}}/api/Books/{{bookId}}"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete book",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 204\", function () { pm.response.to.have.status(204); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": "{{baseUrl}}/api/Books/{{bookId}}"
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Error paths",
+                    "item": [
+                        {
+                            "name": "Get book by id - not found",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 404\", function () { pm.response.to.have.status(404); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": "{{baseUrl}}/api/Books/999999"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Create book - invalid input",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"title\": \"\",\n  \"author\": \"\",\n  \"price\": 0\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": "{{baseUrl}}/api/Books"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Update book - not found",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 404\", function () { pm.response.to.have.status(404); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"id\": 999999,\n  \"title\": \"Ghost Edition\",\n  \"author\": \"Ghost Author\",\n  \"price\": 9.99\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": "{{baseUrl}}/api/Books/999999"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete book - not found",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "type": "text/javascript",
+                                        "exec": [
+                                            "pm.test(\"Status code is 404\", function () { pm.response.to.have.status(404); });"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": "{{baseUrl}}/api/Books/999999"
+                            },
+                            "response": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
