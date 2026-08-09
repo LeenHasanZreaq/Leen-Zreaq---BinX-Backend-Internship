@@ -918,3 +918,58 @@ Week 3 will extend these foundations by adding:
 - Authentication
 - Advanced REST API design
 - Real data persistence
+
+
+
+# Week 3 — Backend & REST API Development
+
+During this week, I learned how to design, build, test, and document a complete RESTful API using ASP.NET Core, Entity Framework Core, and SQL Server.
+
+### What I Learned
+
+* **REST API Design**
+
+  * Understanding REST principles and stateless architecture.
+  * Designing clean resource-based endpoints using HTTP verbs.
+  * Applying proper resource naming and nested resources.
+  * Using HTTP status codes correctly.
+  * Understanding API versioning.
+
+* **Database Design & Normalization**
+
+  * Designing relational database schemas.
+  * Applying **1NF, 2NF, and 3NF**.
+  * Working with Primary Keys, Foreign Keys, and relationships.
+  * Designing one-to-many and many-to-many relationships.
+  * Choosing appropriate SQL Server data types.
+
+* **Entity Framework Core**
+
+  * Configuring EF Core with SQL Server.
+  * Creating Entity classes and `DbContext`.
+  * Using Code-First development.
+  * Creating and applying database migrations.
+  * Managing database connection strings and configuration securely.
+
+* **CRUD Operations**
+
+  * Implementing **Create, Read, Update, and Delete** operations.
+  * Using asynchronous EF Core methods such as `ToListAsync()` and `SaveChangesAsync()`.
+  * Handling validation and `404 Not Found` cases.
+  * Understanding EF Core change tracking and `AsNoTracking()`.
+
+* **API Testing with Postman**
+
+  * Creating and organizing Postman collections.
+  * Testing both successful and error scenarios.
+  * Using Postman environments and variables.
+  * Writing basic automated tests for API responses.
+  * Documenting API endpoints and expected responses.
+
+### Technologies & Tools
+
+`C#` · `ASP.NET Core` · `Entity Framework Core` · `SQL Server` · `REST API` · `Postman` · `Docker` · `Git & GitHub`
+
+### Outcome
+
+By the end of the week, I was able to design a normalized database, build a RESTful API connected to SQL Server using EF Core, implement complete CRUD functionality, and test the API systematically using Postman.
