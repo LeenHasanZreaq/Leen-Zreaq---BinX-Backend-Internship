@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,7 @@ public class AuthController : ControllerBase
         _config = config;
     }
 
+    // REGISTER
     [HttpPost("register")]
     public async Task<IActionResult> Register(
         string email,
@@ -42,29 +44,37 @@ public class AuthController : ControllerBase
         return Ok("User created successfully");
     }
 
+
+    // LOGIN
     [HttpPost("login")]
     public async Task<IActionResult> Login(
         string email,
         string password)
     {
-        // Find user
+        // 1. Find user
         var user = await _userManager.FindByEmailAsync(email);
 
         if (user == null)
+        {
             return Unauthorized("Invalid email or password");
+        }
 
-        // Check password
-        var result = await _signInManager
-            .CheckPasswordSignInAsync(
-                user,
-                password,
-                false
-            );
 
+        // 2. Check password using Identity
+        var result = await _signInManager.CheckPasswordSignInAsync(
+            user,
+            password,
+            lockoutOnFailure: false
+        );
+
+        // 3. Return 401 if credentials are invalid
         if (!result.Succeeded)
+        {
             return Unauthorized("Invalid email or password");
+        }
 
-        // Create Claims
+
+        // 4. Create JWT Claims
         var claims = new[]
         {
             new Claim(
@@ -78,35 +88,43 @@ public class AuthController : ControllerBase
             )
         };
 
-        // Create Secret Key
+
+        // 5. Get Secret Key from appsettings.json
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(
                 _config["Jwt:Key"]!
             )
         );
 
-        // Create JWT
+
+        // 6. Create JWT
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
 
-            signingCredentials:
-                new SigningCredentials(
-                    key,
-                    SecurityAlgorithms.HmacSha256
-                )
+            claims: claims,
+
+            // Token expires after 15 minutes
+            expires: DateTime.UtcNow.AddMinutes(15),
+
+            // Sign the JWT using HMAC SHA256
+            signingCredentials: new SigningCredentials(
+                key,
+                SecurityAlgorithms.HmacSha256
+            )
         );
 
-        // Convert token to string
-        var tokenString =
-            new JwtSecurityTokenHandler()
-                .WriteToken(token);
 
+        // 7. Convert JWT object to string
+        var tokenString = new JwtSecurityTokenHandler()
+            .WriteToken(token);
+
+
+        // 8. Return JWT to the client
         return Ok(new
         {
             token = tokenString
         });
     }
 }
+
