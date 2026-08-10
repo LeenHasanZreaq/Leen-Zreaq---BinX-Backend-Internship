@@ -1,7 +1,7 @@
 {
     "info": {
         "_postman_id": "f3b1d5ed-1f89-44aa-9b81-a2f2ee3c9e04",
-        "name": "Week 3 Day 4 - Books API",
+        "name": "Week 3 Day 5 - Books API",
         "description": "CRUD requests for the Day 4 Books API, with happy-path and error-path examples for mentor review.",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
