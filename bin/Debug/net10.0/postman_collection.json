@@ -1,0 +1,520 @@
+{
+    "info": {
+        "name": "Week 3 API - Authorization Tests",
+        "description": "Collection for testing JWT-protected CRUD endpoints with role-based and claim-based authorization",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Login as User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set(\"user_token\", jsonData.token);",
+                                    "    pm.test(\"User token saved to environment\", function() {",
+                                    "        pm.expect(jsonData.token).to.be.truthy;",
+                                    "    });",
+                                    "} else {",
+                                    "    pm.test(\"Login failed\", function() {",
+                                    "        pm.expect(pm.response.code).to.equal(200);",
+                                    "    });",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login as Admin",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set(\"admin_token\", jsonData.token);",
+                                    "    pm.test(\"Admin token saved to environment\", function() {",
+                                    "        pm.expect(jsonData.token).to.be.truthy;",
+                                    "    });",
+                                    "} else {",
+                                    "    pm.test(\"Login failed\", function() {",
+                                    "        pm.expect(pm.response.code).to.equal(200);",
+                                    "    });",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\": \"{{admin_email}}\", \"password\": \"{{admin_password}}\"}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Without Authentication",
+            "item": [
+                {
+                    "name": "Get All Books - No Token (401)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Returns 401 Unauthorized without token\", function() {",
+                                    "    pm.expect(pm.response.code).to.equal(401);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/books",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "User Role Tests",
+            "item": [
+                {
+                    "name": "Get All Books - User Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User can GET all books (200)\", function() {",
+                                    "    pm.expect(pm.response.code).to.equal(200);",
+                                    "    pm.expect(pm.response.json()).to.be.an('array');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{user_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/books",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Book by ID - User Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User can GET book by ID (200 or 404)\", function() {",
+                                    "    pm.expect([200, 404]).to.include(pm.response.code);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{user_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/books/{{book_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books",
+                                "{{book_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Book - User Token (403 Forbidden - No Permission)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User without 'ManageBooks' permission cannot POST (403)\", function() {",
+                                    "    pm.expect(pm.response.code).to.equal(403);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{user_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"title\": \"Test Book\", \"author\": \"Test Author\", \"price\": 29.99}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/books",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Book - User Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User can UPDATE book (204 or 404)\", function() {",
+                                    "    pm.expect([204, 404]).to.include(pm.response.code);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{user_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"title\": \"Updated Book\", \"author\": \"Updated Author\", \"price\": 39.99}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/books/{{book_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books",
+                                "{{book_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Book - User Token (403 Forbidden - Admin Only)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User cannot DELETE - Admin role required (403)\", function() {",
+                                    "    pm.expect(pm.response.code).to.equal(403);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{user_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/books/{{book_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books",
+                                "{{book_id}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Role Tests",
+            "item": [
+                {
+                    "name": "Get All Books - Admin Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Admin can GET all books (200)\", function() {",
+                                    "    pm.expect(pm.response.code).to.equal(200);",
+                                    "    pm.expect(pm.response.json()).to.be.an('array');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/books",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Book - Admin Token (Success)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set(\"book_id\", jsonData.id);",
+                                    "    pm.test(\"Admin can POST book with 'ManageBooks' permission (201)\", function() {",
+                                    "        pm.expect(jsonData.id).to.be.truthy;",
+                                    "    });",
+                                    "} else {",
+                                    "    pm.test(\"Create book failed\", function() {",
+                                    "        pm.expect(pm.response.code).to.equal(201);",
+                                    "    });",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"title\": \"Advanced C#\", \"author\": \"John Smith\", \"price\": 49.99}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/books",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Book - Admin Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Admin can UPDATE book (204 or 404)\", function() {",
+                                    "    pm.expect([204, 404]).to.include(pm.response.code);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"title\": \"Advanced C# - Revised\", \"author\": \"John Smith\", \"price\": 59.99}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/books/{{book_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books",
+                                "{{book_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Book - Admin Token (Success)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Admin can DELETE book with Admin role (204 or 404)\", function() {",
+                                    "    pm.expect([204, 404]).to.include(pm.response.code);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/books/{{book_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books",
+                                "{{book_id}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
