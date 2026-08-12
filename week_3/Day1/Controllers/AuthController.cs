@@ -1,123 +1,100 @@
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using week_3.Models;
+using week_3.Services;
+using week_4.Models.Requests;
 
 namespace week_3.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class BooksController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly IConfiguration _configuration;
+    private readonly IBookService _bookService;
 
-    public AuthController(
-        UserManager<IdentityUser> userManager,
-        IConfiguration configuration)
+    public BooksController(IBookService bookService)
     {
-        _userManager = userManager;
-        _configuration = configuration;
+        _bookService = bookService;
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request)
+    // Any authenticated user
+    [HttpGet]
+    public async Task<ActionResult<List<Book>>> GetAllBooks()
     {
-        var user = await _userManager
-            .FindByEmailAsync(request.Email);
+        var books = await _bookService.GetAllBooksAsync();
 
-        if (user == null)
+        return Ok(books);
+    }
+
+    // Any authenticated user
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Book>> GetBook(int id)
+    {
+        var book = await _bookService.GetBookByIdAsync(id);
+
+        if (book == null)
+            return NotFound();
+
+        return Ok(book);
+    }
+
+    // Policy required
+    [Authorize(Policy = "CanManageBooks")]
+    [HttpPost]
+    public async Task<ActionResult<Book>> CreateBook(
+        CreateBookRequest request)
+    {
+        var book = new Book
         {
-            return Unauthorized("Invalid email or password.");
-        }
-
-        var passwordValid =
-            await _userManager.CheckPasswordAsync(
-                user,
-                request.Password
-            );
-
-        if (!passwordValid)
-        {
-            return Unauthorized("Invalid email or password.");
-        }
-
-        // Get user's roles
-        var roles = await _userManager.GetRolesAsync(user);
-
-        var claims = new List<Claim>
-        {
-            new Claim(
-                ClaimTypes.NameIdentifier,
-                user.Id
-            ),
-
-            new Claim(
-                ClaimTypes.Email,
-                user.Email!
-            )
+            Title = request.Title,
+            Author = request.Author,
+            Price = request.Price
         };
 
-        // Add roles to JWT
-        foreach (var role in roles)
-        {
-            claims.Add(
-                new Claim(
-                    ClaimTypes.Role,
-                    role
-                )
-            );
-        }
+        var createdBook =
+            await _bookService.CreateBookAsync(book);
 
-        // Give Admin ManageBooks permission
-        if (roles.Contains("Admin"))
-        {
-            claims.Add(
-                new Claim(
-                    "permission",
-                    "ManageBooks"
-                )
-            );
-        }
-
-        var jwtKey = _configuration["Jwt:Key"]
-            ?? throw new InvalidOperationException(
-                "JWT Key is missing."
-            );
-
-        var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(jwtKey)
+        return CreatedAtAction(
+            nameof(GetBook),
+            new { id = createdBook.Id },
+            createdBook
         );
-
-        var credentials = new SigningCredentials(
-            key,
-            SecurityAlgorithms.HmacSha256
-        );
-
-        var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
-            signingCredentials: credentials
-        );
-
-        var tokenString =
-            new JwtSecurityTokenHandler()
-                .WriteToken(token);
-
-        return Ok(new
-        {
-            token = tokenString
-        });
     }
-}
 
-public class LoginRequest
-{
-    public string Email { get; set; } = string.Empty;
+    // Any authenticated user
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Book>> UpdateBook(
+        int id,
+        UpdateBookRequest request)
+    {
+        var book = new Book
+        {
+            Title = request.Title,
+            Author = request.Author,
+            Price = request.Price
+        };
 
-    public string Password { get; set; } = string.Empty;
+        var updatedBook =
+            await _bookService.UpdateBookAsync(id, book);
+
+        if (updatedBook == null)
+            return NotFound();
+
+        return Ok(updatedBook);
+    }
+
+    // Admin only
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBook(int id)
+    {
+        var success =
+            await _bookService.DeleteBookAsync(id);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using week_3.Models;
 using week_3.Services;
+using week_4.Models.Requests;
 
 namespace week_3.Controllers;
 
@@ -41,8 +42,17 @@ public class BooksController : ControllerBase
     // Policy required
     [Authorize(Policy = "CanManageBooks")]
     [HttpPost]
-    public async Task<ActionResult<Book>> CreateBook(Book book)
+    public async Task<ActionResult<Book>> CreateBook(
+        CreateBookRequest request)
     {
+        var book = new Book
+        {
+            Title = request.Title,
+            Author = request.Author,
+            Price = request.Price,
+            PublishedYear = request.PublishedYear
+        };
+
         var createdBook =
             await _bookService.CreateBookAsync(book);
 
@@ -57,8 +67,16 @@ public class BooksController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<Book>> UpdateBook(
         int id,
-        Book book)
+        UpdateBookRequest request)
     {
+        var book = new Book
+        {
+            Title = request.Title,
+            Author = request.Author,
+            Price = request.Price,
+            PublishedYear = request.PublishedYear
+        };
+
         var updatedBook =
             await _bookService.UpdateBookAsync(id, book);
 

@@ -7,15 +7,16 @@ using System.Text;
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
-// using MyWebProject.Validators;
 using week_4.Validators;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services.AddControllers();
+
+// FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBookRequestValidator>();
-
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -81,13 +82,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+
     app.UseSwagger();
 
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint(
             "/swagger/v1/swagger.json",
-            "Week 3 API V1"
+            "Week 4 API V1"
         );
 
         c.RoutePrefix = string.Empty;

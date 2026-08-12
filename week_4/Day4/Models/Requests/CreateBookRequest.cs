@@ -1,4 +1,3 @@
-// namespace week_4.Models.Requests;
 
 public class CreateBookRequest
 {

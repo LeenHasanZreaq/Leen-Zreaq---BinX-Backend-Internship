@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyWebProject.week_3.Day4.Models;
 
-
 public class Book
 {
     public int Id { get; set; }
