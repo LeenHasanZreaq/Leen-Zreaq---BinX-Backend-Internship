@@ -192,5 +192,3 @@
 /home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
 /home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/week_3/Day5/Postman/Week_3_Day_4_Books_API.postman_collection.json
 /home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/week_3/Day5/Postman/Week_3_Day_4_Books_API.postman_environment.json
-/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/postman_collection.json
-/home/leen1/Desktop/MyWebProject/bin/Debug/net10.0/postman_environment.json

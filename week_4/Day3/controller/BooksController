@@ -1,0 +1,64 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using week_4.Models;
+using week_4.Services;
+
+namespace week_4.Controllers;
+
+[Authorize] // <-- requires a valid JWT for every action unless overridden below
+[ApiController]
+[Route("api/[controller]")]
+public class BooksController : ControllerBase
+{
+    private readonly IBookService _bookService;
+
+    public BooksController(IBookService bookService)
+    {
+        _bookService = bookService;
+    }
+
+    // Any authenticated user
+    [HttpGet]
+    public async Task<ActionResult<List<Book>>> GetAllBooks()
+    {
+        var books = await _bookService.GetAllBooksAsync();
+        return Ok(books);
+    }
+
+    // Any authenticated user
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Book>> GetBook(int id)
+    {
+        var book = await _bookService.GetBookByIdAsync(id);
+        if (book == null) return NotFound();
+        return Ok(book);
+    }
+
+    // Named policy required (see section 4)
+    [Authorize(Policy = "CanManageBooks")]
+    [HttpPost]
+    public async Task<ActionResult<Book>> CreateBook(Book book)
+    {
+        var createdBook = await _bookService.CreateBookAsync(book);
+        return CreatedAtAction(nameof(GetBook), new { id = createdBook.Id }, createdBook);
+    }
+
+    // Any authenticated user
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Book>> UpdateBook(int id, Book book)
+    {
+        var updatedBook = await _bookService.UpdateBookAsync(id, book);
+        if (updatedBook == null) return NotFound();
+        return Ok(updatedBook);
+    }
+
+    // Admin role only (see section 3)
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBook(int id)
+    {
+        var success = await _bookService.DeleteBookAsync(id);
+        if (!success) return NotFound();
+        return NoContent();
+    }
+}
