@@ -5,10 +5,17 @@ using Microsoft.IdentityModel.Tokens;
 using MyWebProject.week_3.Day4.Data;
 using System.Text;
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
+// using MyWebProject.Validators;
+using week_4.Validators;
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateBookRequestValidator>();
+
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "80ZgoMXjKH8=",
+  "dgSpecHash": "HnC5Q3Pf5lw=",
   "success": true,
   "projectFilePath": "/home/leen1/Desktop/MyWebProject/MyWebProject.csproj",
   "expectedPackageFiles": [
     "/home/leen1/.nuget/packages/azure.core/1.47.1/azure.core.1.47.1.nupkg.sha512",
     "/home/leen1/.nuget/packages/azure.identity/1.14.2/azure.identity.1.14.2.nupkg.sha512",
+    "/home/leen1/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
+    "/home/leen1/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "/home/leen1/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/home/leen1/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/leen1/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/10.0.10/microsoft.aspnetcore.authentication.jwtbearer.10.0.10.nupkg.sha512",
     "/home/leen1/.nuget/packages/microsoft.aspnetcore.cryptography.internal/10.0.10/microsoft.aspnetcore.cryptography.internal.10.0.10.nupkg.sha512",
