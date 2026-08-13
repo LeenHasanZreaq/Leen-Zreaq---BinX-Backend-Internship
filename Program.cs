@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MyWebProject.week_3.Day4.Data;
@@ -76,9 +77,57 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+
+// CORS
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("https://myapp.com")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+
+// RATE LIMITING
+
+builder.Services.AddRateLimiter(options =>
+{
+    // General endpoints
+    options.AddFixedWindowLimiter("general", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 100;
+
+        limiterOptions.Window =
+            TimeSpan.FromMinutes(1);
+
+        limiterOptions.QueueLimit = 0;
+    });
+
+    // Login endpoint
+    options.AddFixedWindowLimiter("login", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 5;
+
+        limiterOptions.Window =
+            TimeSpan.FromMinutes(1);
+
+        limiterOptions.QueueLimit = 0;
+    });
+
+    options.RejectionStatusCode =
+        StatusCodes.Status429TooManyRequests;
+});
+
+
 var app = builder.Build();
 
+
 // Swagger
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -96,13 +145,59 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Middleware
+
+// HTTPS
+
 app.UseHttpsRedirection();
 
+
+// HSTS
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+
+
+// SECURITY HEADERS
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] =
+        "nosniff";
+
+    context.Response.Headers["X-Frame-Options"] =
+        "DENY";
+
+    context.Response.Headers["Content-Security-Policy"] =
+        "default-src 'self'";
+
+    await next();
+});
+
+
+// CORS
+
+app.UseCors("AllowFrontend");
+
+
+// RATE LIMITING
+
+app.UseRateLimiter();
+
+
+// AUTHENTICATION
+
 app.UseAuthentication();
+
+
+// AUTHORIZATION
+
 app.UseAuthorization();
 
+
 // Seed Roles + Test Users
+
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider
@@ -179,7 +274,9 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+
 // Controllers
+
 app.MapControllers();
 
 app.Run();
