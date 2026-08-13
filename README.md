@@ -973,3 +973,60 @@ During this week, I learned how to design, build, test, and document a complete 
 ### Outcome
 
 By the end of the week, I was able to design a normalized database, build a RESTful API connected to SQL Server using EF Core, implement complete CRUD functionality, and test the API systematically using Postman.
+
+
+
+
+# Week 4 — Authentication, Identity & Input Validation
+
+During Week 4, I learned and implemented the main security components required to secure an ASP.NET Core Web API.
+
+## What I Learned
+
+* **ASP.NET Core Identity**
+
+  * Integrated ASP.NET Core Identity with Entity Framework Core.
+  * Implemented user registration using `UserManager`.
+  * Learned how Identity securely hashes and stores passwords using PBKDF2.
+  * Worked with users and roles.
+
+* **JWT Authentication**
+
+  * Learned the structure of JSON Web Tokens (JWT) and claims.
+  * Implemented a login endpoint that issues JWT access tokens.
+  * Configured JWT Bearer Authentication in ASP.NET Core.
+  * Learned about token expiration and refresh tokens.
+  * Learned how to securely manage JWT signing keys and avoid exposing secrets in source control.
+
+* **Authorization & Role-Based Access Control**
+
+  * Protected API endpoints using the `[Authorize]` attribute.
+  * Implemented role-based authorization using roles such as `User` and `Admin`.
+  * Learned the difference between `401 Unauthorized` and `403 Forbidden`.
+  * Learned about claims-based and policy-based authorization.
+  * Tested protected endpoints using Postman and Bearer Tokens.
+
+* **Input Validation with FluentValidation**
+
+  * Compared DataAnnotations with FluentValidation.
+  * Created validators for Create and Update request models.
+  * Implemented business validation rules.
+  * Integrated FluentValidation into the ASP.NET Core request pipeline.
+  * Returned structured validation errors using `ValidationProblemDetails`.
+  * Tested validation rules individually using Postman.
+
+* **API Security & Hardening**
+
+  * Implemented **Rate Limiting** to reduce brute-force and denial-of-service attempts.
+  * Configured **CORS** to control which origins can access the API.
+  * Learned about security headers such as **HTTPS, HSTS, and Content-Security-Policy**.
+  * Learned how Entity Framework Core uses parameterized queries to help prevent SQL Injection.
+  * Reviewed raw SQL usage and learned how unsafe string interpolation can bypass these protections.
+
+## Technologies & Tools
+
+`C#` • `.NET` • `ASP.NET Core Identity` • `JWT` • `Entity Framework Core` • `FluentValidation` • `SQL Server` • `Postman` • `CORS` • `Rate Limiting` • `HTTPS/HSTS`
+
+## Outcome
+
+By the end of Week 4, I learned how to transform a basic CRUD REST API into a more secure API by implementing authentication, authorization, input validation, and security hardening.
