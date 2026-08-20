@@ -1030,3 +1030,194 @@ During Week 4, I learned and implemented the main security components required t
 ## Outcome
 
 By the end of Week 4, I learned how to transform a basic CRUD REST API into a more secure API by implementing authentication, authorization, input validation, and security hardening.
+
+
+# Week 5 — Testing & Error Handling
+
+## Overview
+
+During Week 5, I learned and practiced automated testing, mocking, integration testing, global exception handling, and structured error responses using ASP.NET Core and .NET 10.
+
+---
+
+## Day 1 — Unit Testing
+
+Learned how to write unit tests using **xUnit** and test business logic independently.
+
+### Example
+
+```csharp
+[Fact]
+public void CalculateFinalPrice_ReturnsCorrectPrice()
+{
+    var calculator = new ProductCalculator();
+
+    var result = calculator.CalculateFinalPrice(100m, 20);
+
+    Assert.Equal(80m, result);
+}
+```
+
+Topics:
+
+* xUnit
+* `[Fact]`
+* Assertions
+* Testing success and failure cases
+
+---
+
+## Day 2 — Mocking with Moq
+
+Learned how to replace external dependencies such as repositories with mocks.
+
+### Example
+
+```csharp
+var mockRepo = new Mock<IOrderRepository>();
+
+mockRepo
+    .Setup(r => r.GetByIdAsync(1))
+    .ReturnsAsync(new Order
+    {
+        Id = 1,
+        Total = 99.99m
+    });
+
+var service = new OrderService(mockRepo.Object);
+
+var result = await service.GetOrderTotalAsync(1);
+
+Assert.Equal(99.99m, result);
+```
+
+Also practiced:
+
+```csharp
+mockRepo.Verify(
+    r => r.GetByIdAsync(1),
+    Times.Once);
+```
+
+And mocking exceptions:
+
+```csharp
+mockRepo
+    .Setup(r => r.GetByIdAsync(1))
+    .ThrowsAsync(
+        new InvalidOperationException("Database error"));
+```
+
+---
+
+## Day 3 — Integration Testing
+
+Learned how to test the complete ASP.NET Core pipeline using `WebApplicationFactory`.
+
+### Example
+
+```csharp
+var response =
+    await _client.GetAsync("/api/orders/1");
+
+Assert.Equal(
+    HttpStatusCode.OK,
+    response.StatusCode);
+```
+
+Also tested:
+
+* GET endpoint happy path
+* Not Found response
+* Response body
+* EF Core In-Memory database
+* Protected endpoints and authentication
+
+---
+
+## Day 4 — Global Exception Handling
+
+Implemented centralized exception handling using custom middleware.
+
+Instead of adding `try/catch` to every endpoint, exceptions are handled in one place.
+
+### Example
+
+```csharp
+try
+{
+    await _next(context);
+}
+catch (Exception ex)
+{
+    _logger.LogError(ex, "Unhandled exception");
+
+    context.Response.StatusCode = 500;
+
+    await context.Response.WriteAsJsonAsync(
+        new ProblemDetails
+        {
+            Title = "An unexpected error occurred.",
+            Status = 500
+        });
+}
+```
+
+Learned:
+
+* Global Exception Middleware
+* `ProblemDetails`
+* HTTP 500 responses
+* Structured logging
+* Avoiding sensitive error information in API responses
+
+---
+
+## Day 5 — Testing Strategy
+
+Learned how to prioritize testing based on risk and complexity.
+
+High-priority areas include:
+
+* Business logic
+* Authentication
+* Money calculations
+* Complex conditions
+* Previously fixed bugs
+
+### Example
+
+```csharp
+[Fact]
+public void CalculateFinalPrice_ThrowsException_WhenPriceIsNegative()
+{
+    var calculator = new ProductCalculator();
+
+    Assert.Throws<ArgumentException>(
+        () => calculator.CalculateFinalPrice(-100m, 20));
+}
+```
+
+Also practiced running the complete test suite:
+
+```bash
+dotnet test
+```
+
+---
+
+## Technologies Used
+
+* C#
+* .NET 10
+* ASP.NET Core
+* xUnit
+* Moq
+* Entity Framework Core
+* WebApplicationFactory
+* ProblemDetails
+* Git & GitHub
+
+## Week 5 Outcome
+
+By the end of Week 5, I gained practical experience in **unit testing, mocking, integration testing, global exception handling, structured logging, and test strategy**, creating a strong testing foundation for the Phase 3 project.
