@@ -1,0 +1,52 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+
+# Keep the whole project
+!*
+
+# Keep project files
+*.cs
+*.csproj
+*.sln
+*.json
+*.md
+
+# Keep project folders
+!Week_1/
+!Week_1/**
+
+!Week_2/
+!Week_2/**
+
+!Week_3/
+!Week_3/**
+
+!Week_4/
+!Week_4/**
+
+!Week_5/
+!Week_5/**
+
+!Domain/
+!Domain/**
+
+!Services/
+!Services/**
+
+!Migrations/
+!Migrations/**
+
+!CardiacMonitoring.Api.Tests/
+!CardiacMonitoring.Api.Tests/**
+
+!Program.cs
+!README.md
