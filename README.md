@@ -1221,3 +1221,6 @@ dotnet test
 ## Week 5 Outcome
 
 By the end of Week 5, I gained practical experience in **unit testing, mocking, integration testing, global exception handling, structured logging, and test strategy**, creating a strong testing foundation for the Phase 3 project.
+
+
+

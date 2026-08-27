@@ -77,9 +77,7 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-
 // CORS
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -91,19 +89,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 // RATE LIMITING
-
 builder.Services.AddRateLimiter(options =>
 {
     // General endpoints
     options.AddFixedWindowLimiter("general", limiterOptions =>
     {
         limiterOptions.PermitLimit = 100;
-
-        limiterOptions.Window =
-            TimeSpan.FromMinutes(1);
-
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });
 
@@ -111,10 +104,7 @@ builder.Services.AddRateLimiter(options =>
     options.AddFixedWindowLimiter("login", limiterOptions =>
     {
         limiterOptions.PermitLimit = 5;
-
-        limiterOptions.Window =
-            TimeSpan.FromMinutes(1);
-
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });
 
@@ -122,107 +112,72 @@ builder.Services.AddRateLimiter(options =>
         StatusCodes.Status429TooManyRequests;
 });
 
-
 var app = builder.Build();
 
-
 // Swagger
-
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
     app.UseSwagger();
-
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint(
             "/swagger/v1/swagger.json",
             "Week 4 API V1"
         );
-
         c.RoutePrefix = string.Empty;
     });
 }
 
-
 // HTTPS
-
 app.UseHttpsRedirection();
 
-
 // HSTS
-
 if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
 
-
 // SECURITY HEADERS
-
 app.Use(async (context, next) =>
 {
-    context.Response.Headers["X-Content-Type-Options"] =
-        "nosniff";
-
-    context.Response.Headers["X-Frame-Options"] =
-        "DENY";
-
-    context.Response.Headers["Content-Security-Policy"] =
-        "default-src 'self'";
-
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Content-Security-Policy"] = "default-src 'self'";
     await next();
 });
 
-
 // CORS
-
 app.UseCors("AllowFrontend");
 
-
 // RATE LIMITING
-
 app.UseRateLimiter();
 
-
 // AUTHENTICATION
-
 app.UseAuthentication();
 
-
 // AUTHORIZATION
-
 app.UseAuthorization();
 
-
 // Seed Roles + Test Users
-
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider
-        .GetRequiredService<RoleManager<IdentityRole>>();
-
-    var userManager = scope.ServiceProvider
-        .GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
     // Create roles
     string[] roles = { "User", "Admin" };
-
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
         {
-            await roleManager.CreateAsync(
-                new IdentityRole(role)
-            );
+            await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
 
     // Create normal user
-    var normalUser = await userManager
-        .FindByEmailAsync("user@test.com");
-
+    var normalUser = await userManager.FindByEmailAsync("user@test.com");
     if (normalUser == null)
     {
         normalUser = new IdentityUser
@@ -232,24 +187,15 @@ using (var scope = app.Services.CreateScope())
             EmailConfirmed = true
         };
 
-        var result = await userManager.CreateAsync(
-            normalUser,
-            "User123!"
-        );
-
+        var result = await userManager.CreateAsync(normalUser, "User123!");
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(
-                normalUser,
-                "User"
-            );
+            await userManager.AddToRoleAsync(normalUser, "User");
         }
     }
 
     // Create admin
-    var adminUser = await userManager
-        .FindByEmailAsync("admin@test.com");
-
+    var adminUser = await userManager.FindByEmailAsync("admin@test.com");
     if (adminUser == null)
     {
         adminUser = new IdentityUser
@@ -259,24 +205,15 @@ using (var scope = app.Services.CreateScope())
             EmailConfirmed = true
         };
 
-        var result = await userManager.CreateAsync(
-            adminUser,
-            "Admin123!"
-        );
-
+        var result = await userManager.CreateAsync(adminUser, "Admin123!");
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(
-                adminUser,
-                "Admin"
-            );
+            await userManager.AddToRoleAsync(adminUser, "Admin");
         }
     }
 }
 
-
 // Controllers
-
 app.MapControllers();
 
 app.Run();
