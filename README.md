@@ -1224,3 +1224,326 @@ By the end of Week 5, I gained practical experience in **unit testing, mocking, 
 
 
 
+# 🍕 Pizza Ordering & Delivery System — Week 6
+
+## 📌 Project Overview
+
+This project is a backend system for managing a pizza restaurant's ordering and delivery operations.
+
+The system supports:
+
+* Pizza and product management
+* Categories
+* Customers
+* Restaurant tables
+* Waiter orders
+* Order items
+* Order status management
+* Delivery orders
+* Stock management
+* REST API
+* Entity Framework Core
+* SQL Server
+
+---
+
+# 📅 Day 1 — Sprint Planning & Database Design
+
+### What I Worked On
+
+* Defined the Sprint 1 goal.
+* Planned the Sprint backlog.
+* Designed the complete database schema for the Pizza Ordering System.
+* Identified the main entities and their relationships.
+* Created the ERD.
+* Applied database normalization principles.
+
+### Main Entities
+
+* Users
+* Customers
+* Waiters
+* Categories
+* Products
+* Tables
+* Orders
+* OrderItems
+* Deliveries
+
+### Main Relationships
+
+```text
+Category
+   │
+   └── Products
+
+Customer
+   │
+   └── Orders
+
+Table
+   │
+   └── Orders
+
+Order
+   │
+   └── OrderItems
+          │
+          └── Product
+
+Order
+   │
+   └── Delivery
+```
+
+### Deliverables
+
+* Database design
+* ERD
+* Sprint backlog
+* Entity relationship mapping
+
+---
+
+# 📅 Day 2 — EF Core Data Model & Migrations
+
+### What I Worked On
+
+* Created C# entity classes based on the ERD.
+* Added primary keys and foreign keys.
+* Added navigation properties.
+* Configured relationships using EF Core Fluent API.
+* Configured database constraints.
+* Added initial seed data.
+* Created the initial EF Core migration.
+* Applied the migration to SQL Server.
+* Verified that the generated database matches the ERD.
+
+### Technologies
+
+* ASP.NET Core
+* Entity Framework Core
+* SQL Server
+
+### Migration Commands
+
+```bash
+dotnet ef migrations add InitialSchema
+dotnet ef database update
+```
+
+---
+
+# 📅 Day 3 — Product Catalog API
+
+### What I Worked On
+
+Implemented the core product/catalog read operations.
+
+### Features
+
+* Get products
+* Pagination
+* Filtering
+* Sorting
+* Product response DTOs
+* Efficient database queries
+
+### Example
+
+```http
+GET /api/products?page=1&pageSize=10
+```
+
+### Filtering
+
+```http
+GET /api/products?categoryId=1
+```
+
+### Sorting
+
+```http
+GET /api/products?sort=price_asc
+```
+
+### Pagination
+
+Used:
+
+```csharp
+Skip()
+Take()
+```
+
+to avoid returning all products at once.
+
+### DTO
+
+Created response DTOs instead of exposing EF Core entities directly.
+
+### Testing
+
+Tested the endpoints using Postman.
+
+---
+
+# 📅 Day 4 — Order Creation & Business Logic
+
+### What I Worked On
+
+Implemented the order creation workflow.
+
+The system now handles:
+
+1. Creating an order.
+2. Adding order items.
+3. Checking product availability.
+4. Checking stock quantity.
+5. Calculating item totals.
+6. Calculating the complete order total.
+7. Decreasing product stock.
+8. Linking the order to a restaurant table for dine-in orders.
+9. Handling delivery information for delivery orders.
+
+### Example Order Flow
+
+```text
+Waiter
+   ↓
+Select Table
+   ↓
+Select Pizza / Products
+   ↓
+Create Order
+   ↓
+Check Stock
+   ↓
+Calculate Total
+   ↓
+Create OrderItems
+   ↓
+Decrease Stock
+   ↓
+Save Order
+```
+
+### Database Transaction
+
+Used an EF Core transaction to ensure that all order operations succeed or fail together.
+
+```text
+BEGIN TRANSACTION
+
+Create Order
+Create OrderItems
+Update Stock
+
+       ↓
+
+     COMMIT
+```
+
+If an error occurs:
+
+```text
+ROLLBACK
+```
+
+### GitHub
+
+* Created a feature branch.
+* Committed the Sprint 1 changes.
+* Pushed the branch.
+* Opened a Pull Request for review.
+
+---
+
+# 📅 Day 5 — Postman Demo & Sprint Review
+
+### What I Worked On
+
+Demonstrated the completed Sprint 1 functionality using Postman.
+
+### Demo Flow
+
+#### 1. Get Products
+
+```http
+GET /api/products
+```
+
+#### 2. Test Pagination
+
+```http
+GET /api/products?page=1&pageSize=10
+```
+
+#### 3. Test Filtering
+
+```http
+GET /api/products?categoryId=1
+```
+
+#### 4. Create an Order
+
+```http
+POST /api/orders
+```
+
+#### 5. Verify Order
+
+Checked that:
+
+* Order was created.
+* OrderItems were created.
+* Total was calculated correctly.
+* Stock was decreased.
+* Table information was linked for dine-in orders.
+
+### Sprint Review
+
+Reviewed the Sprint 1 acceptance criteria and identified any unfinished work for the next sprint.
+
+### Sprint Retrospective
+
+Documented:
+
+* What went well.
+* What could be improved.
+* One concrete action for Sprint 2.
+
+---
+
+# 🛠️ Technologies Used
+
+* C#
+* ASP.NET Core Web API
+* Entity Framework Core
+* SQL Server
+* REST API
+* Postman
+* Git
+* GitHub
+
+---
+
+# 🎯 Sprint 1 Outcome
+
+By the end of Sprint 1, the Pizza Ordering & Delivery System had:
+
+* A complete relational database design.
+* An ERD.
+* EF Core entities.
+* Database migrations.
+* Seed data.
+* Product catalog endpoints.
+* Pagination.
+* Filtering.
+* Sorting.
+* DTO-based responses.
+* Order creation.
+* Stock validation and updates.
+* Transaction handling.
+* Postman API testing.
+* GitHub Pull Request and review workflow.
