@@ -38,24 +38,4 @@ public class ProductRepository : IProductRepository
             await _context.SaveChangesAsync();
         }
     }
-
-    Task<IEnumerable<Product>> IProductRepository.GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<Product?> IProductRepository.GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IProductRepository.DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IProductRepository.UpdateAsync(Product product)
-    {
-        throw new NotImplementedException();
-    }
 }

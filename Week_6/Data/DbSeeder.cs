@@ -38,6 +38,45 @@ namespace MyWebProject.Data
                 );
                 context.SaveChanges();
             }
+
+            if (!context.Customers.Any())
+            {
+                context.Customers.Add(new Customer
+                {
+                    FullName = "Sample Customer",
+                    Phone = "+966500000000",
+                    Address = "Riyadh"
+                });
+                context.SaveChanges();
+            }
+
+            if (!context.Orders.Any())
+            {
+                var customer = context.Customers.First();
+                var table = context.Tables.First();
+
+                context.Orders.Add(new Order
+                {
+                    CustomerId = customer.Id,
+                    TableId = table.Id,
+                    Status = "Ready",
+                    CreatedAt = DateTime.UtcNow
+                });
+                context.SaveChanges();
+            }
+
+            if (!context.Notifications.Any())
+            {
+                var table = context.Tables.First();
+
+                context.Notifications.Add(new TableNotification
+                {
+                    TableId = table.Id,
+                    Message = "Your table is ready for pickup.",
+                    IsRead = false
+                });
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MyWebProject.Data;
 using MyWebProject.Models;
 
@@ -10,22 +11,16 @@ public class PaymentRepository : IPaymentRepository
         _context = context;
     }
 
-    public async Task<Payment?> GetByIdAsync(int id) =>
-        await _context.Payments.FindAsync(id);
+    public async Task<Payment?> GetByIdAsync(int id)
+    {
+        return await _context.Payments
+            .Include(p => p.Order)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
 
     public async Task AddAsync(Payment payment)
     {
         _context.Payments.Add(payment);
         await _context.SaveChangesAsync();
-    }
-
-    Task<Payment?> IPaymentRepository.GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IPaymentRepository.AddAsync(Payment payment)
-    {
-        throw new NotImplementedException();
     }
 }

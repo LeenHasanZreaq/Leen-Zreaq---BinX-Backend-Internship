@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MyWebProject.Data;
 using MyWebProject.week_3.Day4.Data;
 using System.Text;
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using week_4.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 
 // FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateBookRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +30,27 @@ builder.Services.AddDbContext<Day4DbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     );
 });
+
+builder.Services.AddDbContext<PizzaRestaurantDbContext>(options =>
+{
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("RestaurantConnection")
+    );
+});
+
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ITableRepository, TableRepository>();
+builder.Services.AddScoped<ITableService, TableService>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // ASP.NET Core Identity
 builder.Services
@@ -160,9 +181,13 @@ app.UseAuthentication();
 // AUTHORIZATION
 app.UseAuthorization();
 
-// Seed Roles + Test Users
+// Seed database and sample data
 using (var scope = app.Services.CreateScope())
 {
+    var pizzaDb = scope.ServiceProvider.GetRequiredService<PizzaRestaurantDbContext>();
+    pizzaDb.Database.EnsureCreated();
+    DbSeeder.Seed(pizzaDb);
+
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 

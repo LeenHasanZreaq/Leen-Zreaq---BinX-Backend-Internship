@@ -1,38 +1,49 @@
-
 using MyWebProject.Models;
-using MyWebProject.DTOs;
 
-namespace MyWebProject.Week_6.Services
+public class ProductService : IProductService
 {
-    public class UserService : IUserService
+    private readonly IProductRepository _repository;
+
+    public ProductService(IProductRepository repository)
     {
-        private readonly IUserRepository _repository;
+        _repository = repository;
+    }
 
-        public UserService(IUserRepository repository)
+    public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
+    {
+        var products = await _repository.GetAllAsync();
+        return products.Select(p => new ProductResponse
         {
-            _repository = repository;
-        }
+            Id = p.Id,
+            Name = p.Name,
+            Brand = p.Brand,
+            Price = p.Price,
+            ImageUrl = p.ImageUrl,
+            CategoryName = p.Category?.Name ?? string.Empty
+        });
+    }
 
-        public async Task<UserResponse?> GetUserAsync(int id)
+    public async Task<ProductResponse> CreateProductAsync(CreateProductRequest request)
+    {
+        var product = new Product
         {
-            var user = await _repository.GetByIdAsync(id);
-            if (user == null) return null;
+            Name = request.Name,
+            Brand = request.Brand,
+            Price = request.Price,
+            ImageUrl = request.ImageUrl,
+            CategoryId = request.CategoryId
+        };
 
-            return new UserResponse { Id = user.Id, Username = user.Username, Email = user.Email, Role = user.Role };
-        }
+        await _repository.AddAsync(product);
 
-        public async Task<UserResponse> UpdateUserAsync(int id, UpdateUserRequest request)
+        return new ProductResponse
         {
-            var user = await _repository.GetByIdAsync(id);
-            if (user == null) throw new Exception("User not found");
-
-            user.Username = request.Username;
-            user.Email = request.Email;
-            user.Role = request.Role;
-
-            await _repository.UpdateAsync(user);
-
-            return new UserResponse { Id = user.Id, Username = user.Username, Email = user.Email, Role = user.Role };
-        }
+            Id = product.Id,
+            Name = product.Name,
+            Brand = product.Brand,
+            Price = product.Price,
+            ImageUrl = product.ImageUrl,
+            CategoryName = string.Empty
+        };
     }
 }

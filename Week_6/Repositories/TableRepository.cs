@@ -38,24 +38,4 @@ public class TableRepository : ITableRepository
             await _context.SaveChangesAsync();
         }
     }
-
-    Task<IEnumerable<RestaurantTable>> ITableRepository.GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<RestaurantTable?> ITableRepository.GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task ITableRepository.AddAsync(RestaurantTable table)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task ITableRepository.UpdateAsync(RestaurantTable table)
-    {
-        throw new NotImplementedException();
-    }
 }

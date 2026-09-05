@@ -1,5 +1,6 @@
 using MyWebProject.Models;
 using MyWebProject.DTOs;
+
 public class PaymentService : IPaymentService
 {
     private readonly IPaymentRepository _repository;
@@ -31,8 +32,21 @@ public class PaymentService : IPaymentService
         };
     }
 
-    public Task<PaymentResponse?> GetPaymentAsync(int id)
+    public async Task<PaymentResponse?> GetPaymentAsync(int id)
     {
-        throw new NotImplementedException();
+        var payment = await _repository.GetByIdAsync(id);
+        if (payment == null)
+        {
+            return null;
+        }
+
+        return new PaymentResponse
+        {
+            Id = payment.Id,
+            OrderId = payment.OrderId,
+            Amount = payment.Amount,
+            Method = payment.Method,
+            PaidAt = payment.PaidAt
+        };
     }
 }
