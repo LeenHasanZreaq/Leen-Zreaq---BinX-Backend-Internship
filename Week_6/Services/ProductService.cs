@@ -12,6 +12,7 @@ public class ProductService : IProductService
     public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
     {
         var products = await _repository.GetAllAsync();
+
         return products.Select(p => new ProductResponse
         {
             Id = p.Id,
@@ -19,11 +20,13 @@ public class ProductService : IProductService
             Brand = p.Brand,
             Price = p.Price,
             ImageUrl = p.ImageUrl,
+            CategoryId = p.CategoryId,
             CategoryName = p.Category?.Name ?? string.Empty
         });
     }
 
-    public async Task<ProductResponse> CreateProductAsync(CreateProductRequest request)
+    public async Task<ProductResponse> CreateProductAsync(
+        CreateProductRequest request)
     {
         var product = new Product
         {
@@ -43,6 +46,7 @@ public class ProductService : IProductService
             Brand = product.Brand,
             Price = product.Price,
             ImageUrl = product.ImageUrl,
+            CategoryId = product.CategoryId,
             CategoryName = string.Empty
         };
     }
