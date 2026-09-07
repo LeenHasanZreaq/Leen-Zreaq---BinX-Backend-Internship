@@ -1,24 +1,88 @@
 using MyWebProject.Models;
-using MyWebProject.DTOs;
-public class DeliveryCompanyService : IDeliveryCompanyService
+namespace MyWebProject.Week_6.Services
 {
-    private readonly IDeliveryCompanyRepository _repository;
-
-    public DeliveryCompanyService(IDeliveryCompanyRepository repository)
+    public class DeliveryService : IDeliveryService
     {
-        _repository = repository;
-    }
+        private readonly IDeliveryRepository _repository;
 
-    public async Task<IEnumerable<DeliveryCompanyResponse>> GetAllCompaniesAsync()
-    {
-        var companies = await _repository.GetAllAsync();
-        return companies.Select(c => new DeliveryCompanyResponse { Id = c.Id, Name = c.Name });
-    }
+        public DeliveryService(IDeliveryRepository repository)
+        {
+            _repository = repository;
+        }
 
-    public async Task<DeliveryCompanyResponse> CreateCompanyAsync(CreateDeliveryCompanyRequest request)
-    {
-        var company = new DeliveryCompany { Name = request.Name };
-        await _repository.AddAsync(company);
-        return new DeliveryCompanyResponse { Id = company.Id, Name = company.Name };
+        public async Task<DeliveryResponse> CreateDeliveryAsync(
+            CreateDeliveryRequest request)
+        {
+            var delivery = new Delivery
+            {
+                OrderId = request.OrderId,
+                Status = "Pending"
+            };
+
+            await _repository.AddAsync(delivery);
+
+            return MapToResponse(delivery);
+        }
+
+        public async Task<DeliveryResponse?> AssignDriverAsync(
+            int id,
+            AssignDriverRequest request)
+        {
+            var delivery = await _repository.GetByIdAsync(id);
+
+            if (delivery == null)
+                return null;
+
+            delivery.DriverId = request.DriverId;
+            delivery.Status = "Assigned";
+
+            await _repository.UpdateAsync(delivery);
+
+            return MapToResponse(delivery);
+        }
+
+        public async Task<IEnumerable<DeliveryResponse>>
+            GetAllDeliveriesAsync()
+        {
+            var deliveries = await _repository.GetAllAsync();
+
+            return deliveries.Select(MapToResponse);
+        }
+
+        public async Task<DeliveryResponse?>
+            GetDeliveryAsync(int id)
+        {
+            var delivery = await _repository.GetByIdAsync(id);
+
+            if (delivery == null)
+                return null;
+
+            return MapToResponse(delivery);
+        }
+
+        public async Task<bool>
+            DeleteDeliveryAsync(int id)
+        {
+            var delivery = await _repository.GetByIdAsync(id);
+
+            if (delivery == null)
+                return false;
+
+            await _repository.DeleteAsync(delivery);
+
+            return true;
+        }
+
+        private static DeliveryResponse MapToResponse(
+            Delivery delivery)
+        {
+            return new DeliveryResponse
+            {
+                Id = delivery.Id,
+                OrderId = delivery.OrderId,
+                DriverId = delivery.DriverId,
+                Status = delivery.Status
+            };
+        }
     }
 }

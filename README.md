@@ -1547,3 +1547,70 @@ By the end of Sprint 1, the Pizza Ordering & Delivery System had:
 * Transaction handling.
 * Postman API testing.
 * GitHub Pull Request and review workflow.
+
+
+
+
+Week 7 — Sprint 2: Authentication & Role-Based Access (RBAC)
+BinX Tech — Backend Development Internship (.NET)
+
+Wiring real authentication and authorization onto the Sprint 1 capstone API using ASP.NET Core Identity and JWT, plus custom middleware and a mentor code review.
+
+📅 Day 1 — Sprint 2 Planning & Wiring Identity
+
+Accomplished:
+
+Defined the Sprint 2 goal and backlog, carrying forward the Sprint 1 retrospective action item.
+Changed the DbContext to inherit from IdentityDbContext.
+Generated a new migration, reviewed it carefully, and applied it to the existing capstone database without disturbing already-migrated data.
+Defined the roles actually needed for the project's domain (e.g. Customer and Admin).
+Documented the planned role structure and which endpoints require which role.
+
+Tools: ASP.NET Core Identity · Entity Framework Core
+
+📅 Day 2 — JWT Login & Registration
+
+Accomplished:
+
+Linked a domain entity (e.g. Customer) to its Identity user via a foreign key (IdentityUserId).
+Implemented a registration endpoint that creates both the IdentityUser and the linked domain entity together in a single transaction, avoiding an account with no matching profile.
+Issued JWTs containing domain-relevant claims (e.g. the linked Customer's ID), avoiding an extra lookup per request.
+Tested the full flow in Postman: register → confirm both records exist → log in → decode the token and verify the expected claim.
+Committed the work to a feature branch.
+
+Tools: ASP.NET Core Identity · JWT · Postman
+
+📅 Day 3 — RBAC & Ownership Checks
+
+Accomplished:
+
+Assigned the Customer role by default at registration, and seeded an initial Admin account separately (never grantable through public registration).
+Went through every endpoint and applied the correct access level (public / any authenticated user / Admin-only) via [Authorize].
+Added resource-based (ownership) authorization on any endpoint returning a specific user's own data, preventing IDOR-style access to other users' records.
+Negative testing: confirmed a Customer token gets 403 on Admin-only endpoints, and that one customer's token can't access another customer's specific order.
+
+Tools: ASP.NET Core Identity · Postman
+
+📅 Day 4 — Custom Middleware & Mentor Code Review
+
+Accomplished:
+
+Identified a genuine cross-cutting concern not already covered by built-in ASP.NET Core middleware (e.g. request timing/logging, correlation IDs).
+Implemented it as custom middleware (or an action filter where more appropriate) and registered it correctly in the pipeline.
+Verified it applies consistently across multiple endpoints with no per-endpoint changes needed.
+Pushed the Sprint 2 branch and opened a pull request summarizing the auth, RBAC, and middleware work.
+Requested mentor review and addressed feedback.
+
+Tools: ASP.NET Core · GitHub
+
+📅 Day 5 — Sprint Review & Retrospective
+
+Accomplished:
+
+Demoed the full authentication/authorization flow live in Postman, including at least two deliberate rejection cases (not just the happy path).
+Checked each backlog task against its acceptance criteria and moved anything incomplete into the Sprint 3 backlog.
+Logged any unresolved authorization edge case as a tagged Sprint 3 backlog item.
+Wrote a Sprint 2 retrospective: what went well, what to improve, and one concrete action for Sprint 3 (which shifts focus to performance and caching).
+Assembled a Sprint 2 summary in Notion: registration/login flow, RBAC matrix, and the merged pull request link.
+
+Tools: Postman · Notion / Trello

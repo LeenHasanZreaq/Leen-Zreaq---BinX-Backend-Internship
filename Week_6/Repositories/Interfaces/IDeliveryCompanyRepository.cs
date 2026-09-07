@@ -1,7 +1,17 @@
 using MyWebProject.Models;
 
-public interface IDeliveryCompanyRepository
+namespace MyWebProject.Week_6.Repositories.Interfaces
 {
-    Task<IEnumerable<DeliveryCompany>> GetAllAsync();
-    Task AddAsync(DeliveryCompany company);
+    public interface IDeliveryRepository
+    {
+        Task<Delivery?> GetByIdAsync(int id);
+
+        Task<IEnumerable<Delivery>> GetAllAsync();
+
+        Task AddAsync(Delivery delivery);
+
+        Task UpdateAsync(Delivery delivery);
+
+        Task DeleteAsync(Delivery delivery);
+    }
 }
