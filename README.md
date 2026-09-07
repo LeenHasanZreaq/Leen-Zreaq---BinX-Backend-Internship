@@ -1551,7 +1551,7 @@ By the end of Sprint 1, the Pizza Ordering & Delivery System had:
 
 
 
-Week 7 — Sprint 2: Authentication & Role-Based Access (RBAC)
+## Week 7 — Sprint 2: Authentication & Role-Based Access (RBAC)
 BinX Tech — Backend Development Internship (.NET)
 
 Wiring real authentication and authorization onto the Sprint 1 capstone API using ASP.NET Core Identity and JWT, plus custom middleware and a mentor code review.
