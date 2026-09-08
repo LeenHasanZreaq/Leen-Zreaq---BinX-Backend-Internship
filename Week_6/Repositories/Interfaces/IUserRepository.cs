@@ -1,5 +1,5 @@
-
 using MyWebProject.Models;
+
 public interface IUserRepository
 {
     Task<User?> GetByIdAsync(int id);

@@ -11,8 +11,12 @@ public class OrderRepository : IOrderRepository
         _context = context;
     }
 
-    public async Task<Order?> GetByIdAsync(int id) =>
-        await _context.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
+    public async Task<Order?> GetByIdAsync(int id)
+    {
+        return await _context.Orders
+            .Include(o => o.Items)
+            .FirstOrDefaultAsync(o => o.Id == id);
+    }
 
     public async Task AddAsync(Order order)
     {
@@ -34,31 +38,13 @@ public class OrderRepository : IOrderRepository
 
     public async Task RemoveItemAsync(int orderId, int itemId)
     {
-        var item = await _context.OrderItems.FirstOrDefaultAsync(i => i.Id == itemId && i.OrderId == orderId);
+        var item = await _context.OrderItems
+            .FirstOrDefaultAsync(i => i.Id == itemId && i.OrderId == orderId);
+
         if (item != null)
         {
             _context.OrderItems.Remove(item);
             await _context.SaveChangesAsync();
         }
-    }
-
-    Task<Order?> IOrderRepository.GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IOrderRepository.AddAsync(Order order)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IOrderRepository.UpdateAsync(Order order)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IOrderRepository.AddItemAsync(OrderItem item)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -10,15 +10,27 @@ public class UserService : IUserService
     public async Task<UserResponse?> GetUserAsync(int id)
     {
         var user = await _repository.GetByIdAsync(id);
-        if (user == null) return null;
 
-        return new UserResponse { Id = user.Id, Username = user.Username, Email = user.Email, Role = user.Role };
+        if (user == null)
+            return null;
+
+        return new UserResponse
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role
+        };
     }
 
-    public async Task<UserResponse> UpdateUserAsync(int id, UpdateUserRequest request)
+    public async Task<UserResponse?> UpdateUserAsync(
+        int id,
+        UpdateUserRequest request)
     {
         var user = await _repository.GetByIdAsync(id);
-        if (user == null) throw new Exception("User not found");
+
+        if (user == null)
+            return null;
 
         user.Username = request.Username;
         user.Email = request.Email;
@@ -26,6 +38,12 @@ public class UserService : IUserService
 
         await _repository.UpdateAsync(user);
 
-        return new UserResponse { Id = user.Id, Username = user.Username, Email = user.Email, Role = user.Role };
+        return new UserResponse
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role
+        };
     }
 }

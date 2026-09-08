@@ -21,7 +21,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<PizzaRestaurantDbContext>(options =>
 {
-    options.UseInMemoryDatabase("PizzaRestaurantDb");
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("RestaurantConnection"));
 });
 
 // ========================================
@@ -148,13 +149,13 @@ app.MapControllers();
 // Database Seeder
 // ========================================
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider
-        .GetRequiredService<PizzaRestaurantDbContext>();
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider
+//         .GetRequiredService<PizzaRestaurantDbContext>();
 
-    DbSeeder.Seed(db);
-}
+//     DbSeeder.Seed(db);
+// }
 
 // ========================================
 // Run

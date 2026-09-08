@@ -1,5 +1,7 @@
-using MyWebProject.Data;
 using Microsoft.EntityFrameworkCore;
+using MyWebProject.Data;
+using MyWebProject.Models;
+
 public class UserRepository : IUserRepository
 {
     private readonly PizzaRestaurantDbContext _context;
@@ -9,11 +11,17 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<User?> GetByIdAsync(int id) =>
-        await _context.Users.FindAsync(id);
+    public async Task<User?> GetByIdAsync(int id)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
 
-    public async Task<User?> GetByEmailAsync(string email) =>
-        await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+    }
 
     public async Task AddAsync(User user)
     {
