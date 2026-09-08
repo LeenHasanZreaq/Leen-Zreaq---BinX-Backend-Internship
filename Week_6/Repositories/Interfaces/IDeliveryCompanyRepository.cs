@@ -1,17 +1,19 @@
 using MyWebProject.Models;
 
-namespace MyWebProject.Week_6.Repositories.Interfaces
+namespace MyWebProject.Week_6.Repositories
 {
-    public interface IDeliveryRepository
+    public interface IDeliveryCompanyRepository
     {
-        Task<Delivery?> GetByIdAsync(int id);
+        Task<DeliveryCompany?> GetByIdAsync(int id);
+        Task<IEnumerable<DeliveryCompany>> GetAllAsync();
 
-        Task<IEnumerable<Delivery>> GetAllAsync();
+        Task<IEnumerable<DeliveryCompany>> SearchAsync(string name);
 
-        Task AddAsync(Delivery delivery);
+        Task AddAsync(DeliveryCompany company);
 
-        Task UpdateAsync(Delivery delivery);
+        Task UpdateAsync(DeliveryCompany company);
 
-        Task DeleteAsync(Delivery delivery);
+        Task DeleteAsync(DeliveryCompany company);
     }
+
 }

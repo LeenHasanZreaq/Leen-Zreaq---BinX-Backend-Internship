@@ -6,7 +6,7 @@ using System.Text;
 using MyWebProject.Data;
 using MyWebProject.Mapping;
 using MyWebProject.Week_6.Services;
-
+using MyWebProject.Week_6.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // ========================================

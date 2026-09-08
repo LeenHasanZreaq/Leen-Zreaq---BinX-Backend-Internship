@@ -111,6 +111,3 @@ public class DeliveryCompaniesController : ControllerBase
     }
 }
 
-internal interface IDeliveryCompanyService
-{
-}

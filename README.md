@@ -1556,7 +1556,7 @@ BinX Tech — Backend Development Internship (.NET)
 
 Wiring real authentication and authorization onto the Sprint 1 capstone API using ASP.NET Core Identity and JWT, plus custom middleware and a mentor code review.
 
-📅 Day 1 — Sprint 2 Planning & Wiring Identity
+# Day 1 — Sprint 2 Planning & Wiring Identity
 
 Accomplished:
 
@@ -1568,7 +1568,7 @@ Documented the planned role structure and which endpoints require which role.
 
 Tools: ASP.NET Core Identity · Entity Framework Core
 
-📅 Day 2 — JWT Login & Registration
+# Day 2 — JWT Login & Registration
 
 Accomplished:
 
@@ -1580,7 +1580,7 @@ Committed the work to a feature branch.
 
 Tools: ASP.NET Core Identity · JWT · Postman
 
-📅 Day 3 — RBAC & Ownership Checks
+# Day 3 — RBAC & Ownership Checks
 
 Accomplished:
 
@@ -1591,7 +1591,7 @@ Negative testing: confirmed a Customer token gets 403 on Admin-only endpoints, a
 
 Tools: ASP.NET Core Identity · Postman
 
-📅 Day 4 — Custom Middleware & Mentor Code Review
+# Day 4 — Custom Middleware & Mentor Code Review
 
 Accomplished:
 
@@ -1603,7 +1603,7 @@ Requested mentor review and addressed feedback.
 
 Tools: ASP.NET Core · GitHub
 
-📅 Day 5 — Sprint Review & Retrospective
+# Day 5 — Sprint Review & Retrospective
 
 Accomplished:
 

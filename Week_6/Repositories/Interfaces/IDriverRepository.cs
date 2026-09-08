@@ -6,4 +6,5 @@ public interface IDriverRepository
     Task<Driver?> GetByIdAsync(int id);
     Task AddAsync(Driver driver);
     Task UpdateAsync(Driver driver);
+    Task DeleteAsync(Driver driver);
 }

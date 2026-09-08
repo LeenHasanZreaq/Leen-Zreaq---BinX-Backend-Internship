@@ -1,16 +1,20 @@
 
-public interface IDeliveryService
+public interface IDeliveryCompanyService
 {
-    Task<DeliveryResponse> CreateDeliveryAsync(
-        CreateDeliveryRequest request);
+    Task<IEnumerable<DeliveryCompanyResponse>> GetAllCompaniesAsync();
 
-    Task<DeliveryResponse?> AssignDriverAsync(
+    Task<DeliveryCompanyResponse?> GetCompanyAsync(int id);
+
+    Task<IEnumerable<DeliveryCompanyResponse>> SearchCompaniesAsync(
+        string name);
+
+    Task<DeliveryCompanyResponse> CreateCompanyAsync(
+        CreateDeliveryCompanyRequest request);
+
+    Task<DeliveryCompanyResponse?> UpdateCompanyAsync(
         int id,
-        AssignDriverRequest request);
+        UpdateDeliveryCompanyRequest request);
 
-    Task<IEnumerable<DeliveryResponse>> GetAllDeliveriesAsync();
-
-    Task<DeliveryResponse?> GetDeliveryAsync(int id);
-
-    Task<bool> DeleteDeliveryAsync(int id);
+    Task<bool> DeleteCompanyAsync(int id);
 }
+

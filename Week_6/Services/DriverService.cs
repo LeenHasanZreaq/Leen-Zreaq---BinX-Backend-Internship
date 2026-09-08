@@ -1,52 +1,112 @@
 using MyWebProject.Models;
 using MyWebProject.DTOs;
-public class DeliveryService : IDeliveryService
-{
-    private readonly IDeliveryRepository _repository;
 
-    public DeliveryService(IDeliveryRepository repository)
+public class DriverService : IDriverService
+{
+    private readonly IDriverRepository _repository;
+    public DriverService(IDriverRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<DeliveryResponse> CreateDeliveryAsync(CreateDeliveryRequest request)
+    // GET ALL DRIVERS
+    public async Task<IEnumerable<DriverResponse>> GetAllDriversAsync()
     {
-        var delivery = new Delivery
-        {
-            OrderId = request.OrderId,
-            DriverId = request.DriverId,
-            Status = "Pending",
-            AssignedAt = DateTime.UtcNow
-        };
+        var drivers = await _repository.GetAllAsync();
 
-        await _repository.AddAsync(delivery);
-
-        return new DeliveryResponse
+        return drivers.Select(d => new DriverResponse
         {
-            Id = delivery.Id,
-            OrderId = delivery.OrderId,
-            DriverId = delivery.DriverId,
-            Status = delivery.Status,
-            AssignedAt = delivery.AssignedAt
+            Id = d.Id,
+            FullName = d.FullName,
+            Phone = d.Phone,
+            Status = d.Status,
+            DeliveryCompanyId = d.DeliveryCompanyId
+        });
+    }
+
+    // GET DRIVER BY ID
+    public async Task<DriverResponse?> GetDriverAsync(int id)
+    {
+        var driver = await _repository.GetByIdAsync(id);
+
+        if (driver == null)
+        {
+            return null;
+        }
+
+        return new DriverResponse
+        {
+            Id = driver.Id,
+            FullName = driver.FullName,
+            Phone = driver.Phone,
+            Status = driver.Status,
+            DeliveryCompanyId = driver.DeliveryCompanyId
         };
     }
 
-    public async Task<DeliveryResponse> AssignDriverAsync(int id, AssignDriverRequest request)
+    // CREATE DRIVER
+    public async Task<DriverResponse> CreateDriverAsync(
+        CreateDriverRequest request)
     {
-        var delivery = await _repository.GetByIdAsync(id);
-        if (delivery == null) throw new Exception("Delivery not found");
-
-        delivery.DriverId = request.DriverId;
-        delivery.Status = "OnTheWay";
-        await _repository.UpdateAsync(delivery);
-
-        return new DeliveryResponse
+        var driver = new Driver
         {
-            Id = delivery.Id,
-            OrderId = delivery.OrderId,
-            DriverId = delivery.DriverId,
-            Status = delivery.Status,
-            AssignedAt = delivery.AssignedAt
+            FullName = request.FullName,
+            Phone = request.Phone,
+            Status = "Available",
+            DeliveryCompanyId = request.DeliveryCompanyId
+        };
+
+        await _repository.AddAsync(driver);
+
+        return new DriverResponse
+        {
+            Id = driver.Id,
+            FullName = driver.FullName,
+            Phone = driver.Phone,
+            Status = driver.Status,
+            DeliveryCompanyId = driver.DeliveryCompanyId
         };
     }
+
+    // UPDATE DRIVER STATUS
+    public async Task<DriverResponse> UpdateDriverStatusAsync(
+        int id,
+        UpdateDriverStatusRequest request)
+    {
+        var driver = await _repository.GetByIdAsync(id);
+
+        if (driver == null)
+        {
+            throw new Exception("Driver not found");
+        }
+
+        driver.Status = request.Status;
+
+        await _repository.UpdateAsync(driver);
+
+        return new DriverResponse
+        {
+            Id = driver.Id,
+            FullName = driver.FullName,
+            Phone = driver.Phone,
+            Status = driver.Status,
+            DeliveryCompanyId = driver.DeliveryCompanyId
+        };
+    }
+
+    // DELETE DRIVER
+    public async Task<bool> DeleteDriverAsync(int id)
+    {
+        var driver = await _repository.GetByIdAsync(id);
+
+        if (driver == null)
+        {
+            return false;
+        }
+
+        await _repository.DeleteAsync(driver);
+
+        return true;
+    }
+
 }

@@ -1,6 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using MyWebProject.Data;
 using MyWebProject.Models;
-using Microsoft.EntityFrameworkCore;
+
 public class DriverRepository : IDriverRepository
 {
     private readonly PizzaRestaurantDbContext _context;
@@ -10,11 +11,15 @@ public class DriverRepository : IDriverRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Driver>> GetAllAsync() =>
-        await _context.Drivers.ToListAsync();
+    public async Task<IEnumerable<Driver>> GetAllAsync()
+    {
+        return await _context.Drivers.ToListAsync();
+    }
 
-    public async Task<Driver?> GetByIdAsync(int id) =>
-        await _context.Drivers.FindAsync(id);
+    public async Task<Driver?> GetByIdAsync(int id)
+    {
+        return await _context.Drivers.FindAsync(id);
+    }
 
     public async Task AddAsync(Driver driver)
     {
@@ -28,23 +33,9 @@ public class DriverRepository : IDriverRepository
         await _context.SaveChangesAsync();
     }
 
-    Task<IEnumerable<Driver>> IDriverRepository.GetAllAsync()
+    public async Task DeleteAsync(Driver driver)
     {
-        throw new NotImplementedException();
-    }
-
-    Task<Driver?> IDriverRepository.GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IDriverRepository.AddAsync(Driver driver)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IDriverRepository.UpdateAsync(Driver driver)
-    {
-        throw new NotImplementedException();
+        _context.Drivers.Remove(driver);
+        await _context.SaveChangesAsync();
     }
 }

@@ -1,50 +1,62 @@
-
 using Microsoft.EntityFrameworkCore;
 using MyWebProject.Data;
 using MyWebProject.Models;
 
-public class DeliveryRepository : IDeliveryRepository
+namespace MyWebProject.Week_6.Repositories
 {
-    private readonly PizzaRestaurantDbContext _context;
-
-    public DeliveryRepository(PizzaRestaurantDbContext context)
+    public class DeliveryCompanyRepository : IDeliveryCompanyRepository
     {
-        _context = context;
-    }
+        private readonly PizzaRestaurantDbContext _context;
 
-    public DeliveryRepository()
-    {
-    }
+        public DeliveryCompanyRepository(PizzaRestaurantDbContext context)
+        {
+            _context = context;
+        }
 
-    public async Task<Delivery?> GetByIdAsync(int id)
-    {
-        return await _context.Deliveries
-            .Include(d => d.Driver)
-            .FirstOrDefaultAsync(d => d.Id == id);
-    }
+        // GET COMPANY BY ID
+        public async Task<DeliveryCompany?> GetByIdAsync(int id)
+        {
+            return await _context.DeliveryCompanies
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
 
-    public async Task<IEnumerable<Delivery>> GetAllAsync()
-    {
-        return await _context.Deliveries
-            .Include(d => d.Driver)
-            .ToListAsync();
-    }
+        // GET ALL COMPANIES
+        public async Task<IEnumerable<DeliveryCompany>> GetAllAsync()
+        {
+            return await _context.DeliveryCompanies
+                .ToListAsync();
+        }
 
-    public async Task AddAsync(Delivery delivery)
-    {
-        _context.Deliveries.Add(delivery);
-        await _context.SaveChangesAsync();
-    }
+        // SEARCH COMPANIES
+        public async Task<IEnumerable<DeliveryCompany>> SearchAsync(string name)
+        {
+            return await _context.DeliveryCompanies
+                .Where(c => c.Name.Contains(name))
+                .ToListAsync();
+        }
 
-    public async Task UpdateAsync(Delivery delivery)
-    {
-        _context.Deliveries.Update(delivery);
-        await _context.SaveChangesAsync();
-    }
+        // CREATE COMPANY
+        public async Task AddAsync(DeliveryCompany company)
+        {
+            _context.DeliveryCompanies.Add(company);
 
-    public async Task DeleteAsync(Delivery delivery)
-    {
-        _context.Deliveries.Remove(delivery);
-        await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+        }
+
+        // UPDATE COMPANY
+        public async Task UpdateAsync(DeliveryCompany company)
+        {
+            _context.DeliveryCompanies.Update(company);
+
+            await _context.SaveChangesAsync();
+        }
+
+        // DELETE COMPANY
+        public async Task DeleteAsync(DeliveryCompany company)
+        {
+            _context.DeliveryCompanies.Remove(company);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

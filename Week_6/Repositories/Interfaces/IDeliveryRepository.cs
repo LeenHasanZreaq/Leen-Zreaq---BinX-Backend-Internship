@@ -1,10 +1,16 @@
-
 using MyWebProject.Models;
-public interface IDeliveryRepository
+
+namespace MyWebProject.Week_6.Repositories
 {
-    Task<Delivery?> GetByIdAsync(int id);
-    Task AddAsync(Delivery delivery);
-    Task UpdateAsync(Delivery delivery);
-    Task DeleteAsync(Delivery delivery);
-    Task<IEnumerable<Delivery>> GetAllAsync();
+    public interface IDeliveryRepository
+    {
+        Task<Delivery?> GetByIdAsync(int id);
+        Task<IEnumerable<Delivery>> GetAllAsync();
+
+        Task AddAsync(Delivery delivery);
+
+        Task UpdateAsync(Delivery delivery);
+
+        Task DeleteAsync(Delivery delivery);
+    }
 }
